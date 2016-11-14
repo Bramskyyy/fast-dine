@@ -5,57 +5,60 @@
 <h2 class="above-card">{{ pageTitle }}</h2>
 
 <div class="overview">
-	<!-- <div class="filter">
-		<form id="filterForm" action="{{ PHP_SELF }}" method="post">
-			<input type="text" name="search" placeholder="Search by place name">
-			<select class="people" name="people">
-				<option value="1">1 person</option>
-				<option value="2">2 people</option>
-				<option value="3">3 people</option>
-				<option value="4">4 people</option>
-				<option value="5">5 people</option>
-				<option value="6">6 people</option>
-				<option value="7">7 people</option>
-				<option value="8">8 people</option>
-				<option value="9">9 people</option>
-				<option value="10">10 people</option>
-			</select>
-			<input type="date" name="date" />
-			<input type="time" name="time" step="1800" />
-		</form>
-	</div> -->
-	<div class="restaurants clearfix">
-		<div class="restaurant">
-			<img src="img/souplounge.jpg" alt="" />
-			<h3>Souplounge</h3>
-			<div class="description">
-				<p>
-					Souplounge is een gezellige eetgelegenheid in historisch centrum van Gent.
-				</p>
-			</div>
-			<a href="#" class="book">Reserveer</a>
+	<div class="container">
+		<div class="filter">
+			<form id="filterForm" action="{{ PHP_SELF }}" method="post">
+				<input type="text" class="formControl" id="search" name="search" placeholder="Search by place name">
+				<select class="people formControl" id="people" name="people">
+					<option value="1">1 persoon</option>
+					<option value="2">2 personen</option>
+					<option value="3">3 personen</option>
+					<option value="4">4 personen</option>
+					<option value="5">5 personen</option>
+					<option value="6">6 personen</option>
+					<option value="7">7 personen</option>
+					<option value="8">8 personen</option>
+					<option value="9">9 personen</option>
+					<option value="10">10 personen</option>
+				</select>
+				<input type="date" id="date" name="date" class="formControl" />
+				<input type="time" id="time" name="time" step="1800" class="formControl" />
+				<input type="submit" name="name" value="Filter" />
+			</form>
 		</div>
-
-		<div class="restaurant">
-			<img src="img/gust.jpg" alt="" />
-			<h3>Gust</h3>
-			<div class="description">
-				<p>
-					Ontbijt, lunch, take-away, brunch
-				</p>
+		<div class="restaurants clearfix">
+			<div class="restaurant">
+				<img src="img/souplounge.jpg" alt="" />
+				<h3><a href="#">Souplounge</a></h3>
+				<div class="description">
+					<p>
+						Souplounge is een gezellige eetgelegenheid in historisch centrum van Gent.
+					</p>
+				</div>
+				<a href="#" class="book">Reserveer</a>
 			</div>
-			<a href="#" class="book">Reserveer</a>
-		</div>
 
-		<div class="restaurant">
-			<img src="img/tastyworld.jpg" alt="" />
-			<h3>Tasty World</h3>
-			<div class="description">
-				<p>
-					Tasty World is nieuw in zijn concept en biedt een gevarieerde en rijke keuze aan Veggieburgers en Smoothies in een magisch decor.
-				</p>
+			<div class="restaurant">
+				<img src="img/gust.jpg" alt="" />
+				<h3><a href="#">Gust</a></h3>
+				<div class="description">
+					<p>
+						Ontbijt, lunch, take-away, brunch
+					</p>
+				</div>
+				<a href="#" class="book">Reserveer</a>
 			</div>
-			<a href="#" class="book">Reserveer</a>
+
+			<div class="restaurant">
+				<img src="img/tastyworld.jpg" alt="" />
+				<h3><a href="#">Tasty World</a></h3>
+				<div class="description">
+					<p>
+						Tasty World is nieuw in zijn concept en biedt een gevarieerde en rijke keuze aan Veggieburgers en Smoothies in een magisch decor.
+					</p>
+				</div>
+				<a href="#" class="book">Reserveer</a>
+			</div>
 		</div>
 	</div>
 </div>

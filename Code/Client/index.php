@@ -1,12 +1,17 @@
 <?php
 
-	$api_path = "http://ergast.com/api/f1/current/next.json";
-	$options = "";
+require_once 'vendor/autoload.php';
 
-	$json = file_get_contents($api_path);
+// Twig
+$loader = new Twig_Loader_Filesystem(__DIR__ . '/templates');
+$twig = new Twig_Environment($loader, array(
+	'cache' => __DIR__ . '/cache',
+	'auto_reload' => true // set to false on production
+));
 
-	$object = json_decode($json);
-
-	echo '<pre>';
-	print_r($object);
-	echo '</pre>';
+$tpl = $twig->loadTemplate('home.twig');
+echo $tpl->render(array(
+	'PHP_SELF' => $_SERVER['PHP_SELF'],
+	'pageTitle' => null,
+	'active' => 'home'
+));

@@ -12,5 +12,6 @@ $twig = new Twig_Environment($loader, array(
 $tpl = $twig->loadTemplate('overview.twig');
 echo $tpl->render(array(
 	'PHP_SELF' => $_SERVER['PHP_SELF'],
-	'pageTitle' => 'Restaurants'
+	'pageTitle' => 'Restaurants',
+	'active' => 'overview'
 ));

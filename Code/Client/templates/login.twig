@@ -6,7 +6,7 @@
 
 <div class="center-center">
 	<div class="container">
-		<h2 class="above-login-box">{{ pageTitle }}</h2>
+		<h2 class="above-login-box">{{ pageTitle|default('&nbsp;')|raw }}</h2>
 		<div class="login-box">
 			<form id="loginForm" action="{{ PHP_SELF }}" method="post">
 				<input type="text" name="name" value="" placeholder="Username" />

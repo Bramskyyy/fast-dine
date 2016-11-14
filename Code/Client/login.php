@@ -13,5 +13,6 @@ $tpl = $twig->loadTemplate('login.twig');
 echo $tpl->render(array(
 	'PHP_SELF' => $_SERVER['PHP_SELF'],
 	'username' => 'Bram',
-	'pageTitle' => 'Log in'
+	'pageTitle' => 'Log in',
+	'active' => 'login'
 ));

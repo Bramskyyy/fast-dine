@@ -1,0 +1,44 @@
+{% extends 'master.twig' %}
+
+{% block pageContent %}
+
+<h2 class="above-card">{{ pageTitle }}</h2>
+
+<div class="overview">
+	<div class="restaurants clearfix">
+		<div class="restaurant">
+			<img src="img/souplounge.jpg" alt="" />
+			<h3>Souplounge</h3>
+			<div class="description">
+				<p>
+					Souplounge is een gezellige eetgelegenheid in historisch centrum van Gent.
+				</p>
+			</div>
+			<a href="#" class="book">Reserveer</a>
+		</div>
+
+		<div class="restaurant">
+			<img src="img/gust.jpg" alt="" />
+			<h3>Gust</h3>
+			<div class="description">
+				<p>
+					Ontbijt, lunch, take-away, brunch
+				</p>
+			</div>
+			<a href="#" class="book">Reserveer</a>
+		</div>
+
+		<div class="restaurant">
+			<img src="img/tastyworld.jpg" alt="" />
+			<h3>Tasty World</h3>
+			<div class="description">
+				<p>
+					Tasty World is nieuw in zijn concept en biedt een gevarieerde en rijke keuze aan Veggieburgers en Smoothies in een magisch decor.
+				</p>
+			</div>
+			<a href="#" class="book">Reserveer</a>
+		</div>
+	</div>
+</div>
+
+{% endblock %}

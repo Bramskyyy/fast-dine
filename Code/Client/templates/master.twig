@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>{{ pageTitle }}</title>
+		<link href="https://fonts.googleapis.com/css?family=Amatica+SC" rel="stylesheet">
+		<link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,700" rel="stylesheet">
+		<link rel="stylesheet" href="css/master.css" media="screen">
+	</head>
+	<body>
+		<section id="header">
+			<nav id="topNav">
+				<h1><a href="index.php">Tom Collins</a></h1>
+				<ul>
+					<li><a href="index.php">Home</a></li>
+					<li><a href="overview.php">Restaurants</a></li>
+				</ul>
+			</nav>
+		</section>
+
+		<section id="content">
+			{% block pageContent %}
+
+			{% endblock %}
+		</section>
+
+		<footer>
+
+		</footer>
+	</body>
+</html>

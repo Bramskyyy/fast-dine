@@ -27,8 +27,10 @@ targetCompatibility = 1.8
 dependencies {
     compile("org.springframework.boot:spring-boot-starter-web")
     testCompile('org.springframework.boot:spring-boot-starter-test')
+    compile("org.springframework:spring-jdbc")
+    compile("mysql:mysql-connector-java")
 }
 
 if (!hasProperty('mainClass')) {
-    ext.mainClass = 'hello.hello'
+    ext.mainClass = 'fastdine.Application'
 }

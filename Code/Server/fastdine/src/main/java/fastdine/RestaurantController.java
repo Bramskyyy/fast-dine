@@ -1,20 +1,15 @@
-package hello;
+package fastdine;
 
 import java.util.*;
-import java.util.concurrent.atomic.AtomicLong;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class RestaurantController {
-
-    private static final String template = "%s";
-    private final AtomicLong counter = new AtomicLong();
-    
-    Restaurant r1 = new Restaurant(1, "Gust", 8, "Annonciadenstraat 4, 9000 Gent");
-    Restaurant r2 = new Restaurant(2, "Souplounge", 16, "Zuivelbrugstraat 4, 9000 Gent");
-    Restaurant r3 = new Restaurant(3, "Tasty World", 12, "Hoogpoort 1, 9000 Gent");
+    Restaurant r1 = new Restaurant(1,"Gust","Annonciadenstraat 4, 9000 Gent","gust@mail.com",123456789,8);
+    Restaurant r2 = new Restaurant(1,"Souplounge","Zuivelbrugstraat 4, 9000 Gent","souplounge@mail.com",123456789,16);
+    Restaurant r3 = new Restaurant(1,"Tasty World","Hoogpoort 1, 9000 Gent","tastyworld@mail.com",123456789,12);
 
     @RequestMapping("/restaurant")
     public Restaurant restaurant(@RequestParam(value="name") String name) {

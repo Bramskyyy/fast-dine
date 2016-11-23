@@ -1,32 +1,54 @@
-package hello;
+package fastdine;
 
 public class Restaurant {
 
     private final long id;
     private final String name;
-    private final int tables;
-    private final String address;
+    private final String location;
+    private final String email;
+    private final int telephone;
+    private final int seats;
 
-    public Restaurant(long id, String name, int tables, String address) {
-        this.id = id;
+    public Restaurant(int restaurant_id, String name, String location, String email, int telephone, int seats) {
+        this.id = restaurant_id;
         this.name = name;
-        this.tables = tables;
-        this.address = address;
+        this.location = location;
+        this.email = email;
+        this.telephone = telephone;
+        this.seats = seats;
     }
 
     public long getId() {
-        return id;
+        return this.id;
     }
 
     public String getName() {
-        return name;
+        return this.name;
     }
     
-    public int getTables() {
-        return tables;
+    public String getLocation() 
+    {
+        return this.location;
     }
     
-    public String getAddress() {
-        return address;
+    public String getEmail() {
+        return this.email;
+    }
+    
+    public int getTelefoon() {
+        return this.telephone;
+    }
+    
+    public int getSeats()
+    {
+        return this.seats;
+    }
+    
+    @Override
+    public String toString()
+    {
+        return String.format(
+                "Restaurant[id=%d, name='%s', location='%s', email='%s', telephone='%d', seats='%d']",
+                id, name, location, email, telephone, seats);
     }
 }

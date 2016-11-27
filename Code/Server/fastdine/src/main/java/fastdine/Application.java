@@ -1,5 +1,6 @@
 package fastdine;
 
+import fastdine.dataEntities.Restaurant;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +30,7 @@ public class Application implements CommandLineRunner {
         log.info("Querying for restaurant records");
         jdbcTemplate.query(
                 "SELECT * FROM restaurants",
-                (rs, rowNum) -> new Restaurant(rs.getInt("restaurant_id"), rs.getString("naam"), rs.getString("locatie"), rs.getString("email"), rs.getInt("telefoon"), rs.getInt("aantal_plaatsen"))
+                (rs, rowNum) -> new Restaurant(rs.getInt("restaurant_id"), rs.getString("naam"), rs.getString("locatie"), rs.getString("email"), rs.getString("telefoon"), rs.getInt("aantal_plaatsen"))
         ).forEach(Restaurant -> log.info(Restaurant.toString()));
     }
 }

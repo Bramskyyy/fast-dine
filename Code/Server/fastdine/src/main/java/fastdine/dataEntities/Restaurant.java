@@ -47,7 +47,7 @@ public class Restaurant {
         return this.email;
     }
     
-    public String getTelefoon() {
+    public String getTelephone() {
         return this.telephone;
     }
     

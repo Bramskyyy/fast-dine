@@ -1,4 +1,4 @@
-package fastdine;
+package fastdine.fastdine;
 
 import fastdine.dataEntities.Restaurant;
 import org.slf4j.Logger;
@@ -9,6 +9,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.jdbc.core.JdbcTemplate;
 
+
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -17,7 +18,7 @@ import java.util.stream.Collectors;
 public class Application implements CommandLineRunner {
 
     private static final Logger log = LoggerFactory.getLogger(Application.class);
-
+    
     public static void main(String args[]) {
         SpringApplication.run(Application.class, args);
     }

@@ -10,10 +10,12 @@ $twig = new Twig_Environment($loader, array(
 ));
 
 
-$api = 'localhost:8080';
-$api_overview = $api + '/restaurants';
+$api = 'http://localhost:8080';
+$api_overview = $api . '/restaurants';
 
-$restaurants = json_decode($api_overview);
+$json = file_get_contents($api_overview);
+
+$restaurants = json_decode($json);
 
 var_dump($restaurants);
 

@@ -2,50 +2,48 @@ package fastdine;
 
 import dataEntities.Restaurant;
 import java.util.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.jdbc.core.JdbcTemplate;
 
 @RestController
 public class RestaurantController {
-    private Restaurant r1 = new Restaurant(1, "Gust", "Annonciadenstraat 4, 9000 Gent", "gust@mail.com","123456789", 8);
-    private Restaurant r2 = new Restaurant(2, "Souplounge", "Zuivelbrugstraat 4, 9000 Gent", "souplounge@mail.com", "123456789", 16);
-    private Restaurant r3 = new Restaurant(3, "Tasty World", "Hoogpoort 1, 9000 Gent", "tastyworld@mail.com", "123456789", 12);
+    @Autowired
+    JdbcTemplate jdbcTemplate;
     
-    private List<Restaurant> restaurants = new ArrayList<Restaurant>();
-    
-    public void AddRestaurants() {
-        restaurants.clear();
-        
-        restaurants.add(r1);
-        restaurants.add(r2);
-        restaurants.add(r3);        
-    }
+    private List<Restaurant> restaurants;
+    private String sql;
 
     @RequestMapping("/restaurant")
-    public Restaurant restaurant(@RequestParam(value="name") String name) {
-        AddRestaurants();
+    public List<Restaurant> restaurant(@RequestParam(value="name") String restaurantName) {
+        restaurants = new ArrayList<Restaurant>();
         
-        for (int i = 0; i < restaurants.size(); i++) {
-            Restaurant r = restaurants.get(i);
-            if (r.getName().equals(name)) {
-                return r;
-            }
-        }
+        sql = "SELECT * FROM restaurants WHERE name='" + restaurantName + "'";
         
-        return null;
+        jdbcTemplate.query(
+                sql,
+                (rs, rowNum) -> restaurants.add(new Restaurant(rs.getInt("restaurant_id"), rs.getString("name"), rs.getString("location"), rs.getString("email"), rs.getString("telephone"), rs.getInt("seats")))
+        );
+        
+        if (restaurants.size() != 0)
+            return restaurants;
+        else
+            return null;
     }
     
     @RequestMapping("/restaurants")
     public List<Restaurant> restaurant() {
-        List<Restaurant> test = new ArrayList<Restaurant>();
-                
-        test.add(new Restaurant(1, "Gust", "Annonciadenstraat 4, 9000 Gent", "gust@mail.com","123456789", 8));
-        test.add(new Restaurant(1, "Souplounge", "Zuivelbrugstraat 4, 9000 Gent", "souplounge@mail.com", "123456789", 16));
-        test.add(new Restaurant(1, "Tasty World", "Hoogpoort 1, 9000 Gent", "tastyworld@mail.com", "123456789", 12));
+        restaurants = new ArrayList<Restaurant>();
         
-        //AddRestaurants();
+        sql = "SELECT * FROM restaurants";
+        
+        jdbcTemplate.query(
+                sql,
+                (rs, rowNum) -> restaurants.add(new Restaurant(rs.getInt("restaurant_id"), rs.getString("name"), rs.getString("location"), rs.getString("email"), rs.getString("telephone"), rs.getInt("seats")))
+        );
 
-        return test;
+        return restaurants;
     }
 }

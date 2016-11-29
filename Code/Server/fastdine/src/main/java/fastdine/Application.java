@@ -22,16 +22,9 @@ public class Application implements CommandLineRunner {
     public static void main(String args[]) {
         SpringApplication.run(Application.class, args);
     }
-
-    @Autowired
-    JdbcTemplate jdbcTemplate;
-
+    
     @Override
     public void run(String... strings) throws Exception {
-        log.info("Querying for restaurant records");
-        jdbcTemplate.query(
-                "SELECT * FROM restaurants",
-                (rs, rowNum) -> new Restaurant(rs.getInt("restaurant_id"), rs.getString("naam"), rs.getString("locatie"), rs.getString("email"), rs.getString("telefoon"), rs.getInt("aantal_plaatsen"))
-        ).forEach(Restaurant -> log.info(Restaurant.toString()));
+        
     }
 }

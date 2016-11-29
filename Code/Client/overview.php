@@ -17,8 +17,6 @@ $json = file_get_contents($api_overview);
 
 $restaurants = json_decode($json);
 
-var_dump($restaurants);
-
 $tpl = $twig->loadTemplate('overview.twig');
 echo $tpl->render(array(
 	'PHP_SELF' => $_SERVER['PHP_SELF'],

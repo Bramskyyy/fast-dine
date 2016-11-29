@@ -1,7 +1,4 @@
-import fastdine.dataEntities.Customer;
-import fastdine.dataEntities.Reservation;
-import fastdine.dataEntities.Restaurant;
-import fastdine.dataEntities.Table;
+import dataEntities.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;

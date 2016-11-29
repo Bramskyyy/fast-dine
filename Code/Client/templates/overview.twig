@@ -26,22 +26,23 @@
 				<input type="submit" name="name" value="Filter" />
 			</form>
 		</div>
+		<div class="restaurants clearfix">
 
-		{% for restaurant in restaurants %}
+			{% for restaurant in restaurants %}
 
-			<div class="restaurant">
-				<img src="img/gust.jpg" alt="" />
-				<h3><a href="#">{{ restaurant.name }}</a></h3>
-				<div class="description">
-					<p>
-						Beschikbare plaatsen: {{ restaurant.seats }}
-						{{ restaurant.location }}
-					</p>
+				<div class="restaurant">
+					<img src="img/gust.jpg" alt="" />
+					<h3><a href="#">{{ restaurant.name }}</a></h3>
+					<div class="description">
+						<p>
+							Beschikbare plaatsen: {{ restaurant.seats }}
+							{{ restaurant.location }}
+						</p>
+					</div>
+					<a href="#" class="book">Reserveer</a>
 				</div>
-				<a href="#" class="book">Reserveer</a>
-			</div>
 
-		{% endfor %}
+			{% endfor %}
 
 		</div>
 	</div>

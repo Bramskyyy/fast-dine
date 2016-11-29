@@ -26,39 +26,23 @@
 				<input type="submit" name="name" value="Filter" />
 			</form>
 		</div>
-		<div class="restaurants clearfix">
-			<div class="restaurant">
-				<img src="img/souplounge.jpg" alt="" />
-				<h3><a href="#">Souplounge</a></h3>
-				<div class="description">
-					<p>
-						Souplounge is een gezellige eetgelegenheid in historisch centrum van Gent.
-					</p>
-				</div>
-				<a href="#" class="book">Reserveer</a>
-			</div>
+
+		{% for restaurant in restaurants %}
 
 			<div class="restaurant">
 				<img src="img/gust.jpg" alt="" />
-				<h3><a href="#">Gust</a></h3>
+				<h3><a href="#">{{ restaurant.name }}</a></h3>
 				<div class="description">
 					<p>
-						Ontbijt, lunch, take-away, brunch
+						Beschikbare plaatsen: {{ restaurant.seats }}
+						{{ restaurant.location }}
 					</p>
 				</div>
 				<a href="#" class="book">Reserveer</a>
 			</div>
 
-			<div class="restaurant">
-				<img src="img/tastyworld.jpg" alt="" />
-				<h3><a href="#">Tasty World</a></h3>
-				<div class="description">
-					<p>
-						Tasty World is nieuw in zijn concept en biedt een gevarieerde en rijke keuze aan Veggieburgers en Smoothies in een magisch decor.
-					</p>
-				</div>
-				<a href="#" class="book">Reserveer</a>
-			</div>
+		{% endfor %}
+
 		</div>
 	</div>
 </div>

@@ -15,7 +15,6 @@
         <file>file:/C:/wamp/www/fast-dine/Code/Server/fastdine/src/test/java/POCOTests.java</file>
         <file>file:/C:/wamp/www/fast-dine/Code/Server/fastdine/src/main/java/fastdine/fastdine/Application.java</file>
         <file>file:/C:/wamp/www/fast-dine/Code/Server/fastdine/build.gradle</file>
-        <file>file:/C:/wamp/www/fast-dine/Code/Server/fastdine/src/main/java/fastdine/fastdine/beans.xml</file>
       </group>
     </open-files>
     <editor-bookmarks lastBookmarkId="0" xmlns="http://www.netbeans.org/ns/editor-bookmarks/2"/>
@@ -31,6 +30,7 @@
         <file>file:/C:/wamp/www/fast-dine/Code/Server/fastdine/src/test/java/POCOTests.java</file>
         <file>file:/C:/wamp/www/fast-dine/Code/Server/fastdine/src/main/java/fastdine/fastdine/Application.java</file>
         <file>file:/C:/wamp/www/fast-dine/Code/Server/fastdine/build.gradle</file>
+        <file>file:/C:/wamp/www/fast-dine/Code/Server/fastdine/src/main/resources/application.properties</file>
       </group>
     </open-files>
   </auxiliary>

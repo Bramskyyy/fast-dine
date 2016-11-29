@@ -1,6 +1,6 @@
 package fastdine;
 
-import dataEntities.Customer;
+import dataEntities.User;
 import dataEntities.Reservation;
 import dataEntities.Table;
 import java.util.*;
@@ -11,9 +11,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class ReservationController {   
 
-    Reservation c1 = new Reservation(1, new Date(2016, 11, 27), 1, new Customer());
-    Reservation c2 = new Reservation(2, new Date(2016, 11, 27), 2, new Customer());   
-    Reservation c3 = new Reservation(3, new Date(2016, 11, 27), 3, new Customer());
+    Reservation c1 = new Reservation(1, new Date(2016, 11, 27), 1, new User());
+    Reservation c2 = new Reservation(2, new Date(2016, 11, 27), 2, new User());   
+    Reservation c3 = new Reservation(3, new Date(2016, 11, 27), 3, new User());
     
     @RequestMapping("/reservation")
     public Reservation reservation(@RequestParam(value="id") int id) {

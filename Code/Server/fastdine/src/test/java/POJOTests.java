@@ -9,7 +9,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
-public class POCOTests {
+public class POJOTests {
    
     @Test
     public void testCustomer() {
@@ -17,13 +17,17 @@ public class POCOTests {
         String customerName = "test";
         String customerEmail = "test@test.be";
         String customerPhone = "012334556789";
+        String customerType = "klant";
+        String customerPswd = "123";
         
-        Customer c = new Customer(customerId, customerName, customerEmail, customerPhone);
+        User c = new User(customerId, customerName, customerEmail, customerPhone, customerType, customerPswd);
         
         assertEquals(c.getId(), customerId);
         assertEquals(c.getName(), customerName);
         assertEquals(c.getEmail(), customerEmail);
         assertEquals(c.getTelephone(), customerPhone);
+        assertEquals(c.getType(), customerType);
+        assertEquals(c.getPassword(), customerPswd);
     }
     
     @Test
@@ -68,7 +72,7 @@ public class POCOTests {
         int id = 1;
         Date date = new Date(2016, 11, 27);
         int shift = 1;
-        Customer customer = new Customer();
+        User customer = new User();
                
         Reservation c = new Reservation(id, date, shift, customer);
         

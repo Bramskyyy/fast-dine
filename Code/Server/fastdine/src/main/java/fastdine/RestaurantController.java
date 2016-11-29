@@ -21,12 +21,6 @@ public class RestaurantController {
         restaurants.add(r2);
         restaurants.add(r3);        
     }
-    
-    @RequestMapping("/test")
-    public String hello()
-    {
-        return "hello";
-    }
 
     @RequestMapping("/restaurant")
     public Restaurant restaurant(@RequestParam(value="name") String name) {

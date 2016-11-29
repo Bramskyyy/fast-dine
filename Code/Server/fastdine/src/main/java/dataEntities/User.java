@@ -1,24 +1,38 @@
 package dataEntities;
 
-public class Customer {
+public class User {
     
     private final int id;
     private final String name;
     private final String email;
     private final String telephone;
+    private final String type;
+    private final String password;
 
-    public Customer() {
+    public User() {
         this.id = 0;
         this.name = null;
         this.email = null;
         this.telephone = null;
+        this.type = null;
+        this.password = null;
     }
     
-    public Customer(int klantId, String name, String email, String telephone) {
-        this.id = klantId;
+    public User(int userId, String name, String email, String telephone, String type, String password) {
+        this.id = userId;
         this.name = name;
         this.email = email;
         this.telephone = telephone;
+        this.type = type;
+        this.password = password;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public String getPassword() {
+        return password;
     }
 
     public int getId() {
@@ -40,7 +54,7 @@ public class Customer {
     @Override
     public String toString() {
         return String.format(
-                "Klant [id=%d, name='%s', email='%s', telephone='%s']",
-                this.id, this.name, this.email, this.telephone);
+                "Klant [id=%d, name='%s', email='%s', telephone='%s', type='%s', password='%s']",
+                this.id, this.name, this.email, this.telephone, this.type, this.password);
     }
 }

@@ -1,3 +1,7 @@
 /Code/Client/nbproject/private/
 /Code/Server/fastdine/build/
 /Code/Server/fastdine/.nb-gradle/
+/Code/Client/vendor
+/Code/Client/cache
+/Code/Server/fastdine/.gradle/
+/Code/Client/composer.lock

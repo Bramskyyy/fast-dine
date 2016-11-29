@@ -7,9 +7,9 @@ public class Reservation {
     private final int id;
     private final Date date;
     private final int shift;
-    private final Customer customer;
+    private final User customer;
     
-    public Reservation(int reservationId, Date date, int shift, Customer customer) {
+    public Reservation(int reservationId, Date date, int shift, User customer) {
         this.id = reservationId;
         this.date = date;
         this.shift = shift;
@@ -28,7 +28,7 @@ public class Reservation {
         return this.shift;
     }
     
-    public Customer getCustomer() {
+    public User getCustomer() {
         return this.customer;
     }
 }

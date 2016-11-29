@@ -9,6 +9,14 @@ $twig = new Twig_Environment($loader, array(
 	'auto_reload' => true // set to false on production
 ));
 
+
+$api = 'localhost:8080';
+$api_overview = $api + '/restaurants';
+
+$restaurants = json_decode($api_overview);
+
+var_dump($restaurants);
+
 $tpl = $twig->loadTemplate('overview.twig');
 echo $tpl->render(array(
 	'PHP_SELF' => $_SERVER['PHP_SELF'],

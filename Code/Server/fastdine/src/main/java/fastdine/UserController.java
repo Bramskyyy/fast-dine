@@ -11,14 +11,19 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class UserController {
     @Autowired
-    JdbcTemplate jdbcTemplate;
+    private JdbcTemplate jdbcTemplate;
     
     private String sql;
     
     @RequestMapping("/userPassword")
-    public String getUserPassword (@RequestParam(value="email") String userEmail) {
+    public String getUserPasswordByEmail (@RequestParam(value="email") String userEmail) {
+        
         sql = "SELECT password FROM users WHERE email= ? LIMIT 1";
         
-        return jdbcTemplate.queryForObject(sql, new Object[] { userEmail }, String.class);
+        String result = jdbcTemplate.queryForObject(sql, new Object[] { userEmail }, String.class);
+        
+        if (!result.equals("")) return result;
+               
+        return null;
     }
 }

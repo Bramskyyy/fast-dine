@@ -11,39 +11,42 @@ import org.springframework.jdbc.core.JdbcTemplate;
 @RestController
 public class RestaurantController {
     @Autowired
-    JdbcTemplate jdbcTemplate;
+    private JdbcTemplate jdbcTemplate;
     
     private List<Restaurant> restaurants;
     private String sql;
 
     @RequestMapping("/restaurant")
-    public List<Restaurant> restaurant(@RequestParam(value="name") String restaurantName) {
+    public List<Restaurant> getRestaurantByName(@RequestParam(value="name") String restaurantName) {
+        
         restaurants = new ArrayList<Restaurant>();
         
-        sql = "SELECT * FROM restaurants WHERE name='" + restaurantName + "'";
+        // Will match any string containing a part or the entire name
+        sql = "SELECT * FROM restaurants WHERE name LIKE '%" + restaurantName + "%'";
         
         jdbcTemplate.query(
-                sql,
-                (rs, rowNum) -> restaurants.add(new Restaurant(rs.getInt("restaurant_id"), rs.getString("name"), rs.getString("location"), rs.getString("email"), rs.getString("telephone"), rs.getInt("seats")))
-        );
+            sql,
+            (rs, rowNum) -> restaurants.add(new Restaurant(rs.getInt("restaurant_id"), rs.getString("name"), rs.getString("location"), rs.getString("email"), rs.getString("telephone"), rs.getInt("seats")))
+         );
         
-        if (restaurants.size() != 0)
-            return restaurants;
-        else
-            return null;
+        if (restaurants.size() != 0) return restaurants;
+            
+        return null;
     }
     
     @RequestMapping("/restaurants")
-    public List<Restaurant> restaurant() {
-        restaurants = new ArrayList<Restaurant>();
+    public List<Restaurant> getAllRestaurants() {
         
+        restaurants = new ArrayList<Restaurant>();    
         sql = "SELECT * FROM restaurants";
         
         jdbcTemplate.query(
-                sql,
-                (rs, rowNum) -> restaurants.add(new Restaurant(rs.getInt("restaurant_id"), rs.getString("name"), rs.getString("location"), rs.getString("email"), rs.getString("telephone"), rs.getInt("seats")))
+            sql,
+            (rs, rowNum) -> restaurants.add(new Restaurant(rs.getInt("restaurant_id"), rs.getString("name"), rs.getString("location"), rs.getString("email"), rs.getString("telephone"), rs.getInt("seats")))
         );
 
-        return restaurants;
+        if (restaurants.size() != 0) return restaurants;
+            
+        return null;
     }
 }

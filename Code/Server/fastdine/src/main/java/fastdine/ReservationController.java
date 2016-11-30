@@ -4,23 +4,26 @@ import dataEntities.User;
 import dataEntities.Reservation;
 import dataEntities.Table;
 import java.util.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class ReservationController {   
+    @Autowired
+    private JdbcTemplate jdbcTemplate;
+    
+    private String sql;
+    
+    private List<Reservation> reservations;
 
-    Reservation c1 = new Reservation(1, new Date(2016, 11, 27), 1, new User());
-    Reservation c2 = new Reservation(2, new Date(2016, 11, 27), 2, new User());   
-    Reservation c3 = new Reservation(3, new Date(2016, 11, 27), 3, new User());
     
     @RequestMapping("/reservation")
-    public Reservation reservation(@RequestParam(value="id") int id) {
-        List<Reservation> reservations = new ArrayList<Reservation>();
-        reservations.add(c1);
-        reservations.add(c2);
-        reservations.add(c3);
+    public Reservation getReservationsByRestaurantId(@RequestParam(value="id") int id) {
+        reservations = new ArrayList<Reservation>();
+
         
         for (int i = 0; i < reservations.size(); i++) {
             Reservation r = reservations.get(i);
@@ -34,12 +37,11 @@ public class ReservationController {
     }
     
     @RequestMapping("/reservations")
-    public List<Reservation> reservations() {
-        List<Reservation> reservations = new ArrayList<Reservation>();
-        reservations.add(c1);
-        reservations.add(c2);
-        reservations.add(c3);
-        
-        return reservations;
+    public List<Reservation> getReservationsByRestaurantIdAndShift(@RequestParam(value="id") int id, @RequestParam(value="shift") int shift) {
+        reservations = new ArrayList<Reservation>();
+ 
+        sql = "SELECT * FROM reservations WHERE ";
+            
+        return null;
     }
 }

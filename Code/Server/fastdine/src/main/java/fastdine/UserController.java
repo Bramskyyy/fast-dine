@@ -13,19 +13,12 @@ public class UserController {
     @Autowired
     JdbcTemplate jdbcTemplate;
     
-    private List<User> users;
     private String sql;
     
-    @RequestMapping("/user")
-    public String user(@RequestParam(value="email") String userEmail) {
-        users = new ArrayList<User>();
-        sql = "SELECT password FROM users WHERE email='" + userEmail + "' LIMIT 1";
+    @RequestMapping("/userPassword")
+    public String getUserPassword (@RequestParam(value="email") String userEmail) {
+        sql = "SELECT password FROM users WHERE email= ? LIMIT 1";
         
-        jdbcTemplate.query(
-                sql,
-                (rs, rowNum) -> users.add(new User(0,"","","","",rs.getString("password")))
-        );
-        
-        return users.get(0).getPassword();
+        return jdbcTemplate.queryForObject(sql, new Object[] { userEmail }, String.class);
     }
 }

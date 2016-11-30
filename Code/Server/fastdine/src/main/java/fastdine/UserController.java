@@ -15,9 +15,10 @@ public class UserController {
     
     private String sql;
     
+    // Returns the hashed password for a user based on its email
     @RequestMapping("/userPassword")
     public String getUserPasswordByEmail (@RequestParam(value="email") String userEmail) {
-        
+          
         sql = "SELECT password FROM users WHERE email= ? LIMIT 1";
         
         String result = jdbcTemplate.queryForObject(sql, new Object[] { userEmail }, String.class);

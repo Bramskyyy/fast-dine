@@ -17,31 +17,53 @@ public class ReservationController {
     
     private String sql;
     
-    private List<Reservation> reservations;
-
-    
-    @RequestMapping("/reservation")
-    public Reservation getReservationsByRestaurantId(@RequestParam(value="id") int id) {
-        reservations = new ArrayList<Reservation>();
-
-        
-        for (int i = 0; i < reservations.size(); i++) {
-            Reservation r = reservations.get(i);
-            
-            if (r.getId() == id) {
-                return r;
-            }
-        }
-        
-        return null;
-    }
+    private List<String> reservations;
     
     @RequestMapping("/reservations")
-    public List<Reservation> getReservationsByRestaurantIdAndShift(@RequestParam(value="id") int id, @RequestParam(value="shift") int shift) {
-        reservations = new ArrayList<Reservation>();
- 
-        sql = "SELECT * FROM reservations WHERE ";
+    public List<String> getReservationsByRestaurantIdAndShift(@RequestParam(value="id") int id, @RequestParam(value="shift", defaultValue="") String shift) {
+        reservations = new ArrayList<String>();
+       
+        // In case no shift was specified, return all reservations for the given restaurant
+        if (shift.isEmpty()) {
+            sql = "select users.name, users.telephone, reservations.date, reservations.shift, tables.tablenumber from users " +
+                "inner join reservations on users.id = reservations.user_id " +
+                "inner join tables_has_reservations on reservations.id = tables_has_reservations.reservation_id " +
+                "inner join tables on tables_has_reservations.table_id = tables.id " +
+                "inner join restaurants on tables.restaurant_id = restaurants.id " +
+                "WHERE restaurants.id = " + id + ";";
             
+            jdbcTemplate.query(
+            sql,
+            (rs, rowNum) -> reservations.addAll(Arrays.asList(
+                    rs.getString("name"), 
+                    rs.getString("telephone"), 
+                    rs.getDate("date").toString(), 
+                    Integer.toString(rs.getInt("shift")), 
+                    Integer.toString(rs.getInt("tablenumber"))
+            )));
+  
+        // In case a shift was specified, return all reservations for the given restaurant and shift
+        } else {
+            sql = "select users.name, users.telephone, reservations.date, tables.tablenumber from users " +
+                "inner join reservations on users.id = reservations.user_id " +
+                "inner join tables_has_reservations on reservations.id = tables_has_reservations.reservation_id " +
+                "inner join tables on tables_has_reservations.table_id = tables.id " +
+                "inner join restaurants on tables.restaurant_id = restaurants.id " +
+                "WHERE restaurants.id = " + id +
+                " AND reservations.shift = " + shift + ";";
+            
+            jdbcTemplate.query(
+            sql,
+            (rs, rowNum) -> reservations.addAll(Arrays.asList(
+                rs.getString("name"), 
+                rs.getString("telephone"), 
+                rs.getDate("date").toString(), 
+                Integer.toString(rs.getInt("tablenumber"))
+            )));    
+        }
+           
+        if (!reservations.isEmpty()) return reservations;
+               
         return null;
     }
 }

@@ -26,7 +26,7 @@ public class RestaurantController {
         
         jdbcTemplate.query(
             sql,
-            (rs, rowNum) -> restaurants.add(new Restaurant(rs.getInt("restaurant_id"), rs.getString("name"), rs.getString("location"), rs.getString("email"), rs.getString("telephone"), rs.getInt("seats")))
+            (rs, rowNum) -> restaurants.add(new Restaurant(rs.getInt("id"), rs.getString("name"), rs.getString("location"), rs.getString("email"), rs.getString("telephone"), rs.getInt("seats")))
          );
         
         if (restaurants.size() != 0) return restaurants;
@@ -34,6 +34,7 @@ public class RestaurantController {
         return null;
     }
     
+    // Returns a list with all restaurants
     @RequestMapping("/restaurants")
     public List<Restaurant> getAllRestaurants() {
         
@@ -42,7 +43,7 @@ public class RestaurantController {
         
         jdbcTemplate.query(
             sql,
-            (rs, rowNum) -> restaurants.add(new Restaurant(rs.getInt("restaurant_id"), rs.getString("name"), rs.getString("location"), rs.getString("email"), rs.getString("telephone"), rs.getInt("seats")))
+            (rs, rowNum) -> restaurants.add(new Restaurant(rs.getInt("id"), rs.getString("name"), rs.getString("location"), rs.getString("email"), rs.getString("telephone"), rs.getInt("seats")))
         );
 
         if (restaurants.size() != 0) return restaurants;

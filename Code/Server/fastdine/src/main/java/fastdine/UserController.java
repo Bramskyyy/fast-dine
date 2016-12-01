@@ -35,4 +35,44 @@ public class UserController {
         
         return null;
     }
+    
+    // Eventueel nog opkuisen maar werkt volgens mij (kevin bourgonjon) foutloos.
+    @RequestMapping("/newUser")
+    public boolean newUser (@RequestParam(value="name", defaultValue="") String name, @RequestParam(value="email") String email, @RequestParam(value="telephone", defaultValue="") String telephone, @RequestParam(value="type") String type, @RequestParam(value="password") String password) {
+        if (!email.isEmpty()) {
+            sql = "SELECT count(*) FROM users WHERE email= ?";
+            
+            try
+            {
+                int result = jdbcTemplate.queryForObject(sql, new Object[] { email }, Integer.class);
+                if (result > 0) return false;
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+            
+            if (!type.isEmpty() && !password.isEmpty()) {
+                sql = "INSERT INTO users (id, name, email, telephone, type, password) VALUES (?, ?, ?, ?, ?, ?)";
+                
+                Random rand = new Random();
+                int userId = rand.nextInt((50000 - 0) + 1) + 0;
+                
+                User user = new User(userId, name, email, telephone, type, password);
+                
+                jdbcTemplate.update(sql, new Object[] { 
+                    user.getId(),
+                    user.getName(),
+                    user.getEmail(),
+                    user.getTelephone(),
+                    user.getType(),
+                    user.getPassword()
+                });
+                
+                return true;
+            }
+        }
+        
+        return false;
+    }
 }

@@ -37,29 +37,28 @@ public class UserController {
     }
     
     // Eventueel nog opkuisen maar werkt volgens mij (kevin bourgonjon) foutloos.
+    //Create
     @RequestMapping("/newUser")
     public boolean newUser (@RequestParam(value="name", defaultValue="") String name, @RequestParam(value="email") String email, @RequestParam(value="telephone", defaultValue="") String telephone, @RequestParam(value="type") String type, @RequestParam(value="password") String password) {
-        if (!email.isEmpty()) {
+        if (!email.isEmpty() && !type.isEmpty() && !password.isEmpty()) {
             sql = "SELECT count(*) FROM users WHERE email= ?";
             
-            try
-            {
+            try {
                 int result = jdbcTemplate.queryForObject(sql, new Object[] { email }, Integer.class);
                 if (result > 0) return false;
             }
-            catch (Exception e)
-            {
+            catch (Exception e) {
                 return false;
             }
             
-            if (!type.isEmpty() && !password.isEmpty()) {
-                sql = "INSERT INTO users (id, name, email, telephone, type, password) VALUES (?, ?, ?, ?, ?, ?)";
-                
-                Random rand = new Random();
-                int userId = rand.nextInt((50000 - 0) + 1) + 0;
-                
-                User user = new User(userId, name, email, telephone, type, password);
-                
+            sql = "INSERT INTO users (id, name, email, telephone, type, password) VALUES (?, ?, ?, ?, ?, ?)";
+
+            Random rand = new Random();
+            int userId = rand.nextInt((50000 - 0) + 1) + 0;
+
+            User user = new User(userId, name, email, telephone, type, password);
+            
+            try {
                 jdbcTemplate.update(sql, new Object[] { 
                     user.getId(),
                     user.getName(),
@@ -68,9 +67,12 @@ public class UserController {
                     user.getType(),
                     user.getPassword()
                 });
-                
-                return true;
+            } 
+            catch (Exception e) {
+                return false;
             }
+
+            return true;
         }
         
         return false;

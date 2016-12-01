@@ -66,4 +66,17 @@ public class ReservationController {
                
         return null;
     }
+    
+    //Create
+    @RequestMapping("/newReservation")
+    public boolean newReservation (@RequestParam(value="date") String date, @RequestParam(value="shift") int shift, @RequestParam(value="email") String userEmail) {
+        if (!date.isEmpty() && !Integer.toString(shift).isEmpty() && !userEmail.isEmpty()) {
+            // If date is an actual date...
+            
+            // If user exists...
+            return true;
+        }
+        
+        return false;
+    }
 }

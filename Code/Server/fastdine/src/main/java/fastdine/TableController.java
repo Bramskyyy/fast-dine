@@ -22,7 +22,6 @@ public class TableController {
     public List<String> getTablesByRestaurantIdAndShiftAndDate(@RequestParam(value="id") int id, @RequestParam(value="shift") String shift, @RequestParam(value="date") String date) {
         List<String> tables = new ArrayList<String>();
         
-        
         sql = "select tables.id, tables.seats from tables " +
             "where tables.restaurant_id = 1 " +
             "AND `tables`.id NOT IN (select `tables`.id from restaurants " +

@@ -3,6 +3,9 @@ package fastdine;
 import dataEntities.User;
 import dataEntities.Reservation;
 import dataEntities.Table;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -71,9 +74,36 @@ public class ReservationController {
     @RequestMapping("/newReservation")
     public boolean newReservation (@RequestParam(value="date") String date, @RequestParam(value="shift") int shift, @RequestParam(value="email") String userEmail) {
         if (!date.isEmpty() && !Integer.toString(shift).isEmpty() && !userEmail.isEmpty()) {
-            // If date is an actual date...
+            try {
+                String target = "Thu Sep 28 20:29:30 JST 2000";
+                DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+                Date result =  df.parse(date); 
+            } catch (ParseException pe) {
+                return false;
+            }
             
-            // If user exists...
+            sql = "SELECT * FROM users WHERE email= ?";
+            User user = new User();
+            
+            try 
+            {
+                //maak nieuwe user aan...
+                user.setId(0);
+                int result = jdbcTemplate.queryForObject(sql, new Object[] { userEmail }, Integer.class);
+                //indien userId == null return false;
+                if (result == 0) return false;
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+            
+            Random rand = new Random();
+            int reservationId = rand.nextInt((50000 - 0) + 1) + 0;
+            
+            int id = user.getId();
+            //voeg toe aan database
+            
             return true;
         }
         

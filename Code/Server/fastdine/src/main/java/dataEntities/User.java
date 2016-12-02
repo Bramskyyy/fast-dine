@@ -2,12 +2,12 @@ package dataEntities;
 
 public class User {
     
-    private final int id;
-    private final String name;
-    private final String email;
-    private final String telephone;
-    private final String type;
-    private final String password;
+    private int id;
+    private String name;
+    private String email;
+    private String telephone;
+    private String type;
+    private String password;
 
     public User() {
         this.id = 0;
@@ -37,6 +37,10 @@ public class User {
 
     public int getId() {
         return this.id;
+    }
+    
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getName() {

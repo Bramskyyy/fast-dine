@@ -73,36 +73,35 @@ public class ReservationController {
     //Create
     @RequestMapping("/newReservation")
     public boolean newReservation (@RequestParam(value="date") String date, @RequestParam(value="shift") int shift, @RequestParam(value="email") String userEmail) {
-        if (!date.isEmpty() && !Integer.toString(shift).isEmpty() && !userEmail.isEmpty()) {
+        if (!date.isEmpty() && shift >= 0 && shift <= 2 && !userEmail.isEmpty()) {
+            // Check if the date can  be parsed, return false otherwise
             try {
-                String target = "Thu Sep 28 20:29:30 JST 2000";
                 DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-                Date result =  df.parse(date); 
+                Date parsedDate =  df.parse(date); 
             } catch (ParseException pe) {
                 return false;
             }
             
-            sql = "SELECT * FROM users WHERE email= ?";
-            User user = new User();
-            
-            try 
-            {
-                //maak nieuwe user aan...
-                user.setId(0);
-                int result = jdbcTemplate.queryForObject(sql, new Object[] { userEmail }, Integer.class);
-                //indien userId == null return false;
-                if (result == 0) return false;
+            int useriId = 0;
+                      
+            // Check if the user exists, return false otherwise
+            try {
+                sql = "SELECT * FROM users WHERE email= ?";            
+                useriId = jdbcTemplate.queryForObject(sql, new Object[] { userEmail }, Integer.class);
+                                
+                if (useriId == 0) return false;
             }
             catch (Exception e)
             {
                 return false;
             }
             
+            // Generate random reservation ID
             Random rand = new Random();
             int reservationId = rand.nextInt((50000 - 0) + 1) + 0;
             
-            int id = user.getId();
-            //voeg toe aan database
+            // TODO add reservation to database
+            sql = "INSERT INTO reservations ...";
             
             return true;
         }

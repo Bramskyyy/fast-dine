@@ -9,14 +9,13 @@ buildscript {
 }
 
 apply plugin: 'java'
-apply plugin: 'war'
 apply plugin: 'eclipse'
 apply plugin: 'idea'
 apply plugin: 'org.springframework.boot'
 
 jar {
 	manifest {
-        attributes 'Main-Class': 'fastdine.Application'
+        attributes 'Main-Class': 'fastdine.fastdine.Application'
     }
     baseName = 'fastdine-JAR'
     version =  '0.1.X'

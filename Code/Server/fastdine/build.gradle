@@ -15,8 +15,11 @@ apply plugin: 'idea'
 apply plugin: 'org.springframework.boot'
 
 jar {
-    baseName = 'gs-rest-service'
-    version =  '0.1.0'
+	manifest {
+        attributes 'Main-Class': 'fastdine.Application'
+    }
+    baseName = 'fastdine-JAR'
+    version =  '0.1.X'
 }
 
 repositories {

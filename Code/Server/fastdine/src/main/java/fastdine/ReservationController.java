@@ -72,40 +72,45 @@ public class ReservationController {
     
     //Create
     @RequestMapping("/newReservation")
-    public boolean newReservation (@RequestParam(value="date") String date, @RequestParam(value="shift") int shift, @RequestParam(value="email") String userEmail) {
-        if (!date.isEmpty() && shift >= 0 && shift <= 2 && !userEmail.isEmpty()) {
+    public String newReservation (@RequestParam(value="date") String date, @RequestParam(value="shift") int shift, @RequestParam(value="email") String userEmail, @RequestParam(value="table1") int table1, @RequestParam(value="table2", defaultValue="-1") int table2, @RequestParam(value="table3", defaultValue="-1") int table3) {
+        if (!date.isEmpty() && shift >= 1 && shift <= 3 && !userEmail.isEmpty()) {
             // Check if the date can  be parsed, return false otherwise
-            try {
-                DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-                Date parsedDate =  df.parse(date); 
-            } catch (ParseException pe) {
-                return false;
-            }
+            List<Integer> tables = new ArrayList<Integer>();
             
-            int useriId = 0;
-                      
-            // Check if the user exists, return false otherwise
-            try {
-                sql = "SELECT * FROM users WHERE email= ?";            
-                useriId = jdbcTemplate.queryForObject(sql, new Object[] { userEmail }, Integer.class);
-                                
-                if (useriId == 0) return false;
+            tables.add(table1);
+            if(table2 != -1){
+               tables.add(table2); 
             }
-            catch (Exception e)
-            {
-                return false;
+            if(table3 != -1){
+               tables.add(table3); 
             }
-            
-            // Generate random reservation ID
-            Random rand = new Random();
-            int reservationId = rand.nextInt((50000 - 0) + 1) + 0;
             
             // TODO add reservation to database
-            sql = "INSERT INTO reservations ...";
+            sql = "INSERT INTO reservations (date, shift, user_id) "
+                    + "VALUES ('" + date + "', " + shift + ", "
+                    + "(SELECT id FROM users WHERE email = '" + userEmail + "' LIMIT 1))";
             
-            return true;
+            try {
+                jdbcTemplate.update(sql);
+            } 
+            catch (Exception e) {
+                return e.getMessage();
+            }
+            
+            for (int i = 0; i < tables.size(); i++) {
+              sql = "INSERT INTO tables_has_reservations (table_id, reservation_id) VALUES (" + tables.get(i) + ",1)";
+              
+              try {
+                jdbcTemplate.update(sql);
+            } 
+            catch (Exception e) {
+                return e.getMessage();
+            }
+            }
+
+            return "succes";
         }
         
-        return false;
+        return "parameters incorrect";
     }
 }

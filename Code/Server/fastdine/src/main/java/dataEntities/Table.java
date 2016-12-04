@@ -17,6 +17,13 @@ public class Table {
         this.reservations = new ArrayList<Reservation>();
     }
     
+    public Table(int tableID, int seats) {
+        this.id = tableID;
+        this.tableNumber = 0;
+        this.seats = seats;
+        this.reservations = new ArrayList<Reservation>();        
+    }
+    
     public void addReservation(Reservation reservation) {
         this.reservations.add(reservation);
     }
@@ -36,4 +43,11 @@ public class Table {
     public int getSeats() {
         return this.seats;
     }
+
+    @Override
+    public String toString() {
+        return "Table{" + "id=" + id + ", tableNumber=" + tableNumber + ", seats=" + seats + ", reservations=" + reservations + '}';
+    }
+    
+    
 }

@@ -20,7 +20,7 @@ public class UserController {
     @RequestMapping("/userPassword")
     public String getUserPasswordByEmail (@RequestParam(value="email") String userEmail) {
         if (!userEmail.isEmpty()) {
-            sql = "SELECT password FROM users WHERE email= ? LIMIT 1";
+            sql = "SELECT password FROM users WHERE email = ? LIMIT 1";
             
             try 
             {

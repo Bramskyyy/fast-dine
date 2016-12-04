@@ -22,6 +22,12 @@ public class ReservationController {
     
     private List<String> reservations;
     
+    @RequestMapping("/test")
+    public boolean test ()
+    {
+        return true;
+    }
+    
     @RequestMapping("/reservations")
     public List<String> getReservationsByRestaurantIdAndShift(@RequestParam(value="id") int id, @RequestParam(value="shift", defaultValue="") String shift) {
         reservations = new ArrayList<String>();
@@ -74,7 +80,6 @@ public class ReservationController {
     @RequestMapping("/newReservation")
     public String newReservation (@RequestParam(value="date") String date, @RequestParam(value="shift") int shift, @RequestParam(value="email") String userEmail, @RequestParam(value="table1") int table1, @RequestParam(value="table2", defaultValue="-1") int table2, @RequestParam(value="table3", defaultValue="-1") int table3) {
         if (!date.isEmpty() && shift >= 1 && shift <= 3 && !userEmail.isEmpty()) {
-            // Check if the date can  be parsed, return false otherwise
             List<Integer> tables = new ArrayList<Integer>();
             
             tables.add(table1);
@@ -85,7 +90,6 @@ public class ReservationController {
                tables.add(table3); 
             }
             
-            // TODO add reservation to database
             sql = "INSERT INTO reservations (date, shift, user_id) "
                     + "VALUES ('" + date + "', " + shift + ", "
                     + "(SELECT id FROM users WHERE email = '" + userEmail + "' LIMIT 1))";
@@ -100,12 +104,12 @@ public class ReservationController {
             for (int i = 0; i < tables.size(); i++) {
               sql = "INSERT INTO tables_has_reservations (table_id, reservation_id) VALUES (" + tables.get(i) + ",1)";
               
-              try {
-                jdbcTemplate.update(sql);
-            } 
-            catch (Exception e) {
-                return e.getMessage();
-            }
+                try {
+                    jdbcTemplate.update(sql);
+                } 
+                catch (Exception e) {
+                    return e.getMessage();
+                }
             }
 
             return "succes";

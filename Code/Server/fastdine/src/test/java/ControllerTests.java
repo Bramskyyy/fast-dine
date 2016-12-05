@@ -15,115 +15,34 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
-public class ControllerTests {    
-    /* ReservationController Tests
-    getReservationsByRestaurantId - TODO check id=0
-    getReservationsByRestaurantIdAndShift - TODO check id=0
-    newReservation - TODO
-    */
-    @Test
-    public void getReservationsByRestaurantId () throws Exception
-    {
-        String id = "1";
-        
-        String valueAPI = getValueFromURL("http://localhost:8080/reservations?id=" + id);
-        String valueSQL = "[";
-        
-        try {
-            Class.forName("com.mysql.jdbc.Driver").newInstance();
-            Connection con = DriverManager.getConnection("jdbc:mysql://10.129.32.188/fastdine", "root", "Azerty123");
-
-            Statement st = con.createStatement();
-            String sql = ("select users.name, users.telephone, reservations.date, reservations.shift, tables.tablenumber from users " +
-                "inner join reservations on users.id = reservations.user_id " +
-                "inner join tables_has_reservations on reservations.id = tables_has_reservations.reservation_id " +
-                "inner join tables on tables_has_reservations.table_id = tables.id " +
-                "inner join restaurants on tables.restaurant_id = restaurants.id " +
-                "WHERE restaurants.id = '" + id + "';");
-            ResultSet rs = st.executeQuery(sql);
-           
-            while (rs.next()) {
-                String name = rs.getString("name");
-                String telephone = rs.getString("telephone");
-                String date  = rs.getDate("date").toString();
-                String shift  = Integer.toString(rs.getInt("shift"));
-                String tablenumber = Integer.toString(rs.getInt("tablenumber"));
-                
-                valueSQL +=  "\"" + name + "\",\"" + telephone + "\",\"" + date + "\",\"" + shift + "\",\"" + tablenumber + "\",";
-            }
-            
-            valueSQL = valueSQL.substring(0,valueSQL.length() - 1);
-            valueSQL += "]";
-            valueSQL = valueSQL.replaceAll("\"null\"", "null");
-
-            con.close();
-        }
-        catch (Exception e) {
-            throw e;
-        }
-        
-        assertEquals(valueSQL, valueAPI);
-    }
+public class ControllerTests {
+    @Rule
+    public final ExpectedException exception = ExpectedException.none();
     
     @Test
-    public void getReservationsByRestaurantIdAndShiftTest () throws Exception
-    {
-        String id = "1";
-        String shift = "3";
-        
-        String valueAPI = getValueFromURL("http://localhost:8080/reservations?id=" + id + "&shift=" + shift);
-        String valueSQL = "[";
-        
-        try {
-            Class.forName("com.mysql.jdbc.Driver").newInstance();
-            Connection con = DriverManager.getConnection("jdbc:mysql://10.129.32.188/fastdine", "root", "Azerty123");
-
-            Statement st = con.createStatement();
-            String sql = ("select users.name, users.telephone, reservations.date, tables.tablenumber from users " +
-                "inner join reservations on users.id = reservations.user_id " +
-                "inner join tables_has_reservations on reservations.id = tables_has_reservations.reservation_id " +
-                "inner join tables on tables_has_reservations.table_id = tables.id " +
-                "inner join restaurants on tables.restaurant_id = restaurants.id " +
-                "WHERE restaurants.id = " + id +
-                " AND reservations.shift = " + shift + ";");
-            ResultSet rs = st.executeQuery(sql);
-           
-            while (rs.next()) {
-                String name = rs.getString("name");
-                String telephone = rs.getString("telephone");
-                String date  = rs.getDate("date").toString();
-                String tablenumber = Integer.toString(rs.getInt("tablenumber"));
-                valueSQL +=  "\"" + name + "\",\"" + telephone + "\",\"" + date + "\",\"" + tablenumber + "\",";
-            }
-            
-            valueSQL = valueSQL.substring(0,valueSQL.length() - 1);
-            valueSQL += "]";
-            valueSQL = valueSQL.replaceAll("\"null\"", "null");
-            
-            con.close();
-        }
-        catch (Exception e) {
-            throw e;
-        }
-        
-        assertEquals(valueSQL, valueAPI);
+    public void getReservationsByRestaurantIdAndShiftTest () throws Exception {
+        assertTrue(getReservationsByRestaurantIdResult("0"));
+        assertTrue(getReservationsByRestaurantIdResult("1"));
+        assertTrue(getReservationsByRestaurantIdAndShiftResult("0","3"));
+        assertTrue(getReservationsByRestaurantIdAndShiftResult("1","3"));
+        assertTrue(getReservationsByRestaurantIdAndShiftResult("1","0"));
+        exception.expect(RuntimeException.class);
+        getReservationsByRestaurantIdAndShiftResult("test","test");
     }
     
+    //TODO - complete test
     @Test
-    public void newReservationTest () throws Exception
-    {
-        assertEquals("TRUE","TRUE");
+    public void newReservationTest () throws Exception {
+        
     }
     
-    /* RestaurantController Tests
-    getRestaurantByName - done
-    getAllRestaurants - done
-    */
+    //TODO - split
     @Test
-    public void getRestaurantByNameTest () throws Exception
-    {
+    public void getRestaurantByNameTest () throws Exception {
         List<Restaurant> restosAPI = new ArrayList<Restaurant>();
         List<Restaurant> restosSQL = new ArrayList<Restaurant>();
         
@@ -178,9 +97,9 @@ public class ControllerTests {
         for (Restaurant r : restosSQL) assertEquals(r.toString(), restosAPI.get(x++).toString());
     }
     
+    //TODO - split
     @Test
-    public void getAllRestaurantsTest () throws Exception
-    {
+    public void getAllRestaurantsTest () throws Exception {
         List<Restaurant> restosAPI = new ArrayList<Restaurant>();
         List<Restaurant> restosSQL = new ArrayList<Restaurant>();
       
@@ -233,17 +152,34 @@ public class ControllerTests {
         for (Restaurant r : restosSQL) assertEquals(r.toString(), restosAPI.get(x++).toString());
     }
     
-    /* TableController Tests
-    getTablesByRestaurantIdAndShiftAndDate - done
-    */
     @Test
     public void getTablesByRestaurantIdAndShiftAndDateTest() throws Exception {
+        assertTrue(getTablesByRestaurantIdAndShiftAndDateResult(0, 1, "0"));
+        assertTrue(getTablesByRestaurantIdAndShiftAndDateResult(0, 1, "2017-01-01"));
+        assertTrue(getTablesByRestaurantIdAndShiftAndDateResult(1, 1, "0"));
+        assertTrue(getTablesByRestaurantIdAndShiftAndDateResult(1, 1, "2017-01-01"));
+        exception.expect(NullPointerException.class);        
+        getTablesByRestaurantIdAndShiftAndDateResult(0, 0, "0");
+    }
+    
+    @Test
+    public void getUserPasswordByEmailTest() throws Exception {
+        assertTrue(getUserPasswordByEmailResult("1"));
+        assertTrue(getUserPasswordByEmailResult("gebruiker1@odisee.be"));
+        assertTrue(getUserPasswordByEmailResult(null));
+        exception.expect(NullPointerException.class);
+        getUserPasswordByEmailResult("");
+    }
+    
+    //TODO - complete test
+    @Test
+    public void newUserTest() throws Exception {
+        
+    }
+    
+    private boolean getTablesByRestaurantIdAndShiftAndDateResult(int shift, int id, String date) throws Exception {
         List<Table> tablesAPI = new ArrayList<Table>();
         List<Table> tablesSQL = new ArrayList<Table>();
-        
-        int shift = 1;
-        int id = 1;
-        String date = "2017-01-01";
       
         String value = getValueFromURL("http://localhost:8080/tables?id=" + id + "&shift=" + shift + "&date=" + date);
 
@@ -290,23 +226,25 @@ public class ControllerTests {
             throw e;
         }
         
-        assertEquals(tablesSQL.size(), tablesAPI.size());
+        boolean result = false;
         
-        int x = 0;
-        for (Table i : tablesSQL) assertEquals(i.toString(), tablesAPI.get(x++).toString());  
+        if (tablesSQL.size() == tablesAPI.size()) {    
+            int x = 0;
+            for (Table i : tablesSQL)
+            {
+                result = (i.toString().equals(tablesAPI.get(x++).toString())) ? true : false;
+                if (!result) break;
+            }
+        }
+        
+        return result;
     }
     
-    /* UserController Tests
-    getUserPasswordByEmail - done
-    newUser - TODO
-    */
-    @Test
-    public void getUserPasswordByEmailTest() throws Exception {
-        String passwordAPI = "0";
-        String passwordSQL = "1";
-        String email = "gebruiker1@odisee.be";
-      
-        passwordAPI = getValueFromURL("http://localhost:8080/userPassword?email=" + email);
+    private boolean getUserPasswordByEmailResult (String email) throws Exception {
+        String passwordAPI = getValueFromURL("http://localhost:8080/userPassword?email=" + email);
+        if (passwordAPI.equals("Exception: Incorrect result size: expected 1, actual 0")) passwordAPI = null;
+        String passwordSQL = "";
+        boolean cont = true;
                      
         try {
             Class.forName("com.mysql.jdbc.Driver").newInstance();
@@ -315,6 +253,9 @@ public class ControllerTests {
             Statement st = con.createStatement();
             String sql = "SELECT password FROM users WHERE email = '" + email + "' LIMIT 1";
             ResultSet rs = st.executeQuery(sql);
+            cont = rs.first();
+            
+            if (cont) rs.previous();
 
             while (rs.next()) { 
                 passwordSQL = rs.getString("password");     
@@ -327,18 +268,115 @@ public class ControllerTests {
             throw e;
         }
         
-        assertEquals(passwordAPI, passwordSQL);
+        if (!cont) passwordSQL = null;
         
+        if (passwordSQL == null && passwordAPI == null) return true;
+        else if (passwordSQL == null || passwordAPI == null) return false;
+        else if (passwordSQL.equals(passwordAPI)) return true;
+        return false;
     }
     
-    @Test
-    public void newUserTest() throws Exception {
-        assertEquals("TRUE","TRUE");
+    private boolean getReservationsByRestaurantIdResult (String id) throws Exception {
+        String valueAPI = getValueFromURL("http://localhost:8080/reservations?id=" + id);
+        String valueSQL = "[";
+        
+        boolean cont = true;
+        
+        try {
+            Class.forName("com.mysql.jdbc.Driver").newInstance();
+            Connection con = DriverManager.getConnection("jdbc:mysql://10.129.32.188/fastdine", "root", "Azerty123");
+
+            Statement st = con.createStatement();
+            String sql = ("select users.name, users.telephone, reservations.date, reservations.shift, tables.tablenumber from users " +
+                "inner join reservations on users.id = reservations.user_id " +
+                "inner join tables_has_reservations on reservations.id = tables_has_reservations.reservation_id " +
+                "inner join tables on tables_has_reservations.table_id = tables.id " +
+                "inner join restaurants on tables.restaurant_id = restaurants.id " +
+                "WHERE restaurants.id = '" + id + "';");
+            ResultSet rs = st.executeQuery(sql);
+            cont = rs.first();
+            
+            if (cont) rs.previous();
+           
+            while (rs.next()) {
+                String name = rs.getString("name");
+                String telephone = rs.getString("telephone");
+                String date  = rs.getDate("date").toString();
+                String shift  = Integer.toString(rs.getInt("shift"));
+                String tablenumber = Integer.toString(rs.getInt("tablenumber"));
+                
+                valueSQL +=  "\"" + name + "\",\"" + telephone + "\",\"" + date + "\",\"" + shift + "\",\"" + tablenumber + "\",";
+            }
+            
+            con.close();
+        }
+        catch (Exception e) {
+            throw e;
+        }
+        
+        valueSQL = valueSQL.substring(0,valueSQL.length() - 1);        
+        valueSQL += "]";
+        valueSQL = valueSQL.replaceAll("\"null\"", "null");
+        
+        if (!cont) valueSQL = null;
+        
+        if (valueSQL == null && valueAPI == null) return true;
+        else if (valueSQL == null || valueAPI == null) return false;
+        else if (valueSQL.equals(valueAPI)) return true;
+        return false;
     }
     
-    // Extra methods
-    private String getValueFromURL(String urlRequest)
-    {
+    private boolean getReservationsByRestaurantIdAndShiftResult (String id, String shift) throws Exception {
+        String valueAPI = getValueFromURL("http://localhost:8080/reservations?id=" + id + "&shift=" + shift);
+        String valueSQL = "[";
+        
+        boolean cont = true;
+        
+        try {
+            Class.forName("com.mysql.jdbc.Driver").newInstance();
+            Connection con = DriverManager.getConnection("jdbc:mysql://10.129.32.188/fastdine", "root", "Azerty123");
+
+            Statement st = con.createStatement();
+            String sql = ("select users.name, users.telephone, reservations.date, tables.tablenumber from users " +
+                "inner join reservations on users.id = reservations.user_id " +
+                "inner join tables_has_reservations on reservations.id = tables_has_reservations.reservation_id " +
+                "inner join tables on tables_has_reservations.table_id = tables.id " +
+                "inner join restaurants on tables.restaurant_id = restaurants.id " +
+                "WHERE restaurants.id = " + id +
+                " AND reservations.shift = " + shift + ";");
+            ResultSet rs = st.executeQuery(sql);
+            
+            cont = rs.first();
+            
+            if (cont) rs.previous();
+           
+            while (rs.next()) {
+                String name = rs.getString("name");
+                String telephone = rs.getString("telephone");
+                String date  = rs.getDate("date").toString();
+                String tablenumber = Integer.toString(rs.getInt("tablenumber"));
+                valueSQL +=  "\"" + name + "\",\"" + telephone + "\",\"" + date + "\",\"" + tablenumber + "\",";
+            }
+            
+            con.close();
+        }
+        catch (Exception e) {
+            throw e;
+        }
+        
+        valueSQL = valueSQL.substring(0,valueSQL.length() - 1);
+        valueSQL += "]";
+        valueSQL = valueSQL.replaceAll("\"null\"", "null");
+        
+        if (!cont) valueSQL = null;
+        
+        if (valueSQL == null && valueAPI == null) return true;
+        else if (valueSQL == null || valueAPI == null) return false;
+        else if (valueSQL.equals(valueAPI)) return true;
+        return false;
+    }
+    
+    private String getValueFromURL(String urlRequest) {
         try {
             URL url = new URL(urlRequest);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();

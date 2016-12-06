@@ -1,0 +1,7 @@
+<exec executable="cscript.exe">
+   <env key="ANTRUN_TITLE" value="Title for Window" />  <!-- optional -->
+   <env key="ANTRUN_OUTPUT" value="output.log" />  <!-- optional -->
+   <arg value="//NoLogo" />
+   <arg value="antRunAsync.js" />  <!-- this script -->
+   <arg value="start.bat" />
+</exec>

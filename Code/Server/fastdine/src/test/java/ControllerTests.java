@@ -14,6 +14,7 @@ import java.util.List;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import org.junit.Rule;
 import org.junit.Test;
@@ -40,64 +41,14 @@ public class ControllerTests {
         
     }
     
-    //TODO - split
     @Test
     public void getRestaurantByNameTest () throws Exception {
-        List<Restaurant> restosAPI = new ArrayList<Restaurant>();
-        List<Restaurant> restosSQL = new ArrayList<Restaurant>();
-        
-        String restaurantName = "de";
-      
-        String value = getValueFromURL("http://localhost:8080/restaurant?name=" + restaurantName);
-
-        JSONArray mJsonArray = new JSONArray(value);
-        JSONObject mJsonObject = new JSONObject();
-
-        for (int i = 0; i < mJsonArray.length(); i++) {
-            mJsonObject = mJsonArray.getJSONObject(i);
-
-            int id = mJsonObject.getInt("id");
-            String name = mJsonObject.getString("name");
-            String location = mJsonObject.getString("location");
-            String email = mJsonObject.getString("email");
-            String telephone = mJsonObject.getString("telephone");
-            int seats = mJsonObject.getInt("seats");
-
-            restosAPI.add(new Restaurant(id, name, location, email, telephone, seats));
-        };
-                     
-        try {
-            Class.forName("com.mysql.jdbc.Driver").newInstance();
-            Connection con = DriverManager.getConnection("jdbc:mysql://10.129.32.188/fastdine", "root", "Azerty123");
-
-            Statement st = con.createStatement();
-            String sql = ("SELECT * FROM restaurants WHERE name LIKE '%" + restaurantName + "%'");
-            ResultSet rs = st.executeQuery(sql);
-           
-            while (rs.next()) { 
-                int id = rs.getInt("id"); 
-                String name = rs.getString("name");
-                String location = rs.getString("location");
-                String email = rs.getString("email");
-                String telephone = rs.getString("telephone");
-                int seats = rs.getInt("seats");
-                
-                restosSQL.add(new Restaurant(id, name, location, email, telephone, seats));
-            }
-
-            con.close();
-        }
-        catch (Exception e) {
-            throw e;
-        }
-        
-        assertEquals(restosSQL.size(), restosAPI.size());
-        
-        int x = 0;
-        for (Restaurant r : restosSQL) assertEquals(r.toString(), restosAPI.get(x++).toString());
+        assertTrue(getRestaurantByNameResult("de"));
+        assertTrue(getRestaurantByNameResult(""));
+        exception.expect(NullPointerException.class);
+        getRestaurantByNameResult(null);
     }
-    
-    //TODO - split
+       
     @Test
     public void getAllRestaurantsTest () throws Exception {
         List<Restaurant> restosAPI = new ArrayList<Restaurant>();
@@ -174,7 +125,77 @@ public class ControllerTests {
     //TODO - complete test
     @Test
     public void newUserTest() throws Exception {
+        String email = "testgebruiker@student.odisee.be";
+        String type = "customer";
+        String password = "123";
+
+        //assertTrue(Boolean.parseBoolean(getValueFromURL("http://localhost:8080/newUser?email=testgebruiker1&type=customer&password=123")));
+        //assertFalse(Boolean.parseBoolean(getValueFromURL("http://localhost:8080/newUser?email=testgebruiker1&type=customer&password=123")));
         
+        // Vraag gebruiker op via sql
+        // Id != null bool = true else return false;
+        // (bool) remove user where id = Id
+    }
+    
+    private boolean getRestaurantByNameResult (String restaurantName) throws Exception  {
+        List<Restaurant> restosAPI = new ArrayList<Restaurant>();
+        List<Restaurant> restosSQL = new ArrayList<Restaurant>();
+      
+        String value = getValueFromURL("http://localhost:8080/restaurant?name=" + restaurantName);
+
+        JSONArray mJsonArray = new JSONArray(value);
+        JSONObject mJsonObject = new JSONObject();
+
+        for (int i = 0; i < mJsonArray.length(); i++) {
+            mJsonObject = mJsonArray.getJSONObject(i);
+
+            int id = mJsonObject.getInt("id");
+            String name = mJsonObject.getString("name");
+            String location = mJsonObject.getString("location");
+            String email = mJsonObject.getString("email");
+            String telephone = mJsonObject.getString("telephone");
+            int seats = mJsonObject.getInt("seats");
+
+            restosAPI.add(new Restaurant(id, name, location, email, telephone, seats));
+        };
+                     
+        try {
+            Class.forName("com.mysql.jdbc.Driver").newInstance();
+            Connection con = DriverManager.getConnection("jdbc:mysql://10.129.32.188/fastdine", "root", "Azerty123");
+
+            Statement st = con.createStatement();
+            String sql = ("SELECT * FROM restaurants WHERE name LIKE '%" + restaurantName + "%'");
+            ResultSet rs = st.executeQuery(sql);
+           
+            while (rs.next()) { 
+                int id = rs.getInt("id"); 
+                String name = rs.getString("name");
+                String location = rs.getString("location");
+                String email = rs.getString("email");
+                String telephone = rs.getString("telephone");
+                int seats = rs.getInt("seats");
+                
+                restosSQL.add(new Restaurant(id, name, location, email, telephone, seats));
+            }
+
+            con.close();
+        }
+        catch (Exception e) {
+            throw e;
+        }
+        
+        boolean result;
+        
+        if (restosSQL.size() == restosAPI.size()) result = true; else return false;
+        
+        int x = 0;
+        for (Restaurant r : restosSQL)
+        {
+            result = (r.toString().equals(restosAPI.get(x++).toString())) ? true : false;
+            if (!result) break;
+        }
+        
+        return result;
     }
     
     private boolean getTablesByRestaurantIdAndShiftAndDateResult(int shift, int id, String date) throws Exception {

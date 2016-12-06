@@ -313,3 +313,7 @@ h2.above-card {
 .overview .filter #filterForm input:focus, .overview .filter #filterForm select:focus {
 	border: rgba(48, 188, 102, 1) 1px solid;
 }
+
+.restaurant {
+	background-color: #FAFAFA;
+}

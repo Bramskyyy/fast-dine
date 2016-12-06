@@ -1,0 +1,20 @@
+{% extends 'master.twig' %}
+
+{% block pageContent %}
+<h2 class="above-card">{{ restaurant.name }}</h2>
+<div class="overview">
+	<div class="container clearfix">
+		<div class="restaurant">
+			<div class="details">
+				<p class="seats">{{ restaurant.seats }}</p>
+				<p class="location">{{ restaurant.location }}</p>
+				<p class="email">{{ restaurant.email }}</p>
+				<p class="telephone">{{ restaurant.telephone }}</p>
+				<p class="description">{{ description }}</p>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+{% endblock %}

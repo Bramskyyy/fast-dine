@@ -15,6 +15,22 @@ public class RestaurantController {
     
     private List<Restaurant> restaurants;
     private String sql;
+    
+    @RequestMapping("/restaurantid")
+    public Restaurant getRestaurantById(@RequestParam(value="id") String id) {
+        restaurants = new ArrayList<Restaurant>();
+        
+        sql = "SELECT * FROM restaurants WHERE id = '" + id + "'";
+        
+        jdbcTemplate.query(
+            sql,
+            (rs, rowNum) -> restaurants.add(new Restaurant(rs.getInt("id"), rs.getString("name"), rs.getString("location"), rs.getString("email"), rs.getString("telephone"), rs.getInt("seats")))
+         );
+        
+        if (restaurants.size() != 0) return restaurants.get(0);
+            
+        return null;
+    }
 
     @RequestMapping("/restaurant")
     public List<Restaurant> getRestaurantByName(@RequestParam(value="name") String restaurantName) {

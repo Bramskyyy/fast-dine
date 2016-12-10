@@ -11,6 +11,10 @@ $twig = new Twig_Environment($loader, array(
 
 session_start();
 
+$min_seats = isset($_GET['seats']) ? $_GET['seats'] : 0;
+$shift = isset($_GET['shift']) ? $_GET['shift'] : header('Location: index.php');
+$date = !empty($_GET['date']) ? $_GET['date'] : header('Location: index.php');
+
 $api = 'http://localhost:8080';
 $api_overview = $api . '/restaurants';
 
@@ -18,11 +22,32 @@ $json = file_get_contents($api_overview);
 
 $restaurants = json_decode($json);
 
+foreach ($restaurants as $key => $value) {
+	$api_tables = $api . '/tables?id=' . $value->id . '&shift=' . $shift . '&date=' . $date;
+	$tables = json_decode(file_get_contents($api_tables));
+	$seats = 0;
+	foreach ($tables as $value) {
+		$seats += $value->seats;
+	}
+	$restaurants[$key]->seats = $seats;
+}
+
+$filtered_restaurants = array();
+
+foreach ($restaurants as $key => $value) {
+	if ($value->seats >= $min_seats) {
+		array_push($filtered_restaurants, $value);
+	}
+}
+
 $tpl = $twig->loadTemplate('overview.twig');
 echo $tpl->render(array(
 	'PHP_SELF' => $_SERVER['PHP_SELF'],
 	'pageTitle' => 'Restaurants',
 	'active' => 'overview',
-	'restaurants' => $restaurants,
-	'user' => isset($_SESSION['user']) ? $_SESSION['user'] : null
+	'restaurants' => $filtered_restaurants,
+	'user' => isset($_SESSION['user']) ? $_SESSION['user'] : null,
+	'seats' => $min_seats,
+	'date' => $date,
+	'shift' => $shift
 ));

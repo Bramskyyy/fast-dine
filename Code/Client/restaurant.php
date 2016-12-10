@@ -9,24 +9,29 @@ $twig = new Twig_Environment($loader, array(
 	'auto_reload' => true // set to false on production
 ));
 
+session_start();
+
 $restaurant_id = $_GET['id'] ? $_GET['id'] : header('Location: overview.php');
 
 $api = 'http://localhost:8080';
-$api_restaurant = $api . '/restaurant?name=' . urlencode($restaurant_id);
+$api_restaurant = $api . '/restaurantid?id=' . $restaurant_id;
+$api_tables = $api . '/tables?id=' . $restaurant_id . '&shift=1&date=2016-12-10';
 
-//var_dump($api_restaurant);
+$json_restaurant = file_get_contents($api_restaurant);
+$json_tables = file_get_contents($api_tables);
 
-$json = file_get_contents($api_restaurant);
-
-$restaurant = json_decode($json);
+$restaurant = json_decode($json_restaurant);
+$tables = json_decode($json_tables);
 
 $description = json_decode(file_get_contents("https://baconipsum.com/api/?type=all-meat&paras=1"))[0];
 
 $tpl = $twig->loadTemplate('restaurant.twig');
 echo $tpl->render(array(
 	'PHP_SELF' => $_SERVER['PHP_SELF'],
-	'pageTitle' => $restaurant['name'],
+	'pageTitle' => $restaurant->name,
 	'active' => 'overview',
-	'restaurant' => $restaurant[0],
-	'description' => $description
+	'restaurant' => $restaurant,
+	'tables' => $tables,
+	'description' => $description,
+	'user' => isset($_SESSION['user']) ? $_SESSION['user'] : null
 ));

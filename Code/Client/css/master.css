@@ -176,7 +176,6 @@ h2.above-login-box {
 
 .overview {
 	margin: 0 auto;
-	height: 100%;
 	width: 100%;
 	background-color: #FAFAFA;
 	padding: 50px;
@@ -316,4 +315,65 @@ h2.above-card {
 
 .restaurant {
 	background-color: #FAFAFA;
+}
+
+.restaurant .details {
+	margin: 50px 0;
+}
+
+.restaurant .tables {
+	display: block;
+	margin: 0 auto;
+	text-align: center;
+}
+
+.restaurant .book {
+	display: block;
+	margin: 0 auto;
+	width: 126px;
+	text-transform: uppercase;
+	color: #30BC66;
+	background-color: #FAFAFA;
+	padding: 15px 20px;
+	font-weight: 700;
+	border-radius: 2px;
+	transition: all 0.3s cubic-bezier(.55, 0, .1, 1);
+}
+
+.restaurant .book:hover {
+	color: #FAFAFA;
+	background-color: #30BC66;
+}
+
+.restaurant .tables .table {
+	display: inline-block;
+	margin: 0 20px;
+	position: relative;
+	cursor: pointer;
+}
+
+.restaurant .tables .table div.img {
+	width: 200px;
+	height: 200px;
+	background: url('../img/plate.png');
+	background-size: 200px 200px
+}
+
+.restaurant .tables .selected div.img {
+	width: 200px;
+	height: 200px;
+	background: url('../img/plate-green.png');
+	background-size: 200px 200px
+}
+
+.restaurant .tables .table span.seats {
+	position: absolute;
+	font-size: 60px;
+	top: 58px;
+	left: 85px;
+	font-weight: bold;
+}
+
+.restaurant .tables .selected span.seats {
+	color: #30BC66;
 }

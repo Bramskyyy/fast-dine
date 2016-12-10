@@ -9,6 +9,7 @@ $twig = new Twig_Environment($loader, array(
 	'auto_reload' => true // set to false on production
 ));
 
+session_start();
 
 $api = 'http://localhost:8080';
 $api_overview = $api . '/restaurants';
@@ -22,5 +23,6 @@ echo $tpl->render(array(
 	'PHP_SELF' => $_SERVER['PHP_SELF'],
 	'pageTitle' => 'Restaurants',
 	'active' => 'overview',
-	'restaurants' => $restaurants
+	'restaurants' => $restaurants,
+	'user' => isset($_SESSION['user']) ? $_SESSION['user'] : null
 ));

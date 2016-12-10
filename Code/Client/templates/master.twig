@@ -16,7 +16,12 @@
 					<li {% if active == "overview" %}class="active"{% endif %}><a href="overview.php">Restaurants</a></li>
 				</ul>
 				<ul id="secondaryNav">
-					<li {% if active == "login" %}class="active"{% endif %}><a href="login.php">Log in</a></li>
+					{% if user is not null %}
+						<li {% if active == "account" %}class="active"{% endif %}><a href="#">{{ user.email }}</a></li>
+						<li ><a href="logout.php">Log out</a></li>
+					{% else %}
+						<li {% if active == "login" %}class="active"{% endif %}><a href="login.php">Log in</a></li>
+					{% endif %}
 				</ul>
 			</nav>
 		</section>
@@ -26,5 +31,33 @@
 
 			{% endblock %}
 		</section>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+		<script type="text/javascript">
+			var selected = 0;
+			$(document).ready(function() {
+
+				$('.table').on('click', function() {
+					if ($(this).hasClass('selected')) {
+						$(this).removeClass('selected');
+						selected--;
+					} else {
+						$(this).addClass('selected');
+						selected++;
+					}
+
+					if (selected > 0) {
+						$('.book').removeClass('disabled');
+					} else {
+						$('.book').addClass('disabled');
+					}
+				});
+
+				$('.book').on('click', function() {
+					if (selected <= 0 || selected > 3) {
+						alert('Please select between 1 and 3 tables.');
+					}
+				});
+			});
+		</script>
 	</body>
 </html>

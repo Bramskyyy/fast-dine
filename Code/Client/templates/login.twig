@@ -9,9 +9,13 @@
 		<h2 class="above-login-box">{{ pageTitle|default('&nbsp;')|raw }}</h2>
 		<div class="login-box">
 			<form id="loginForm" action="{{ PHP_SELF }}" method="post">
-				<input type="text" name="name" value="" placeholder="Username" />
+				<input type="text" name="email" value="" placeholder="Email" />
 				<input type="password" name="password" value="" placeholder="Password" />
+				{% for formError in formErrors %}
+					<p>{{ formError }}</p>
+				{% endfor %}
 				<input type="submit" name="name" value="Submit" />
+				<input type="hidden" name="moduleAction" value="login" />
 			</form>
 		</div>
 	</div>

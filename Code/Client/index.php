@@ -9,9 +9,12 @@ $twig = new Twig_Environment($loader, array(
 	'auto_reload' => true // set to false on production
 ));
 
+session_start();
+
 $tpl = $twig->loadTemplate('home.twig');
 echo $tpl->render(array(
 	'PHP_SELF' => $_SERVER['PHP_SELF'],
 	'pageTitle' => null,
-	'active' => 'home'
+	'active' => 'home',
+	'user' => isset($_SESSION['user']) ? $_SESSION['user'] : null
 ));

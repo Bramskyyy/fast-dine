@@ -46,11 +46,9 @@ if (isset($_POST['moduleAction']) && ($_POST['moduleAction'] == 'book')) {
 
 	$response = file_get_contents($api_reservation);
 
-	var_dump($response);
-
 	if ($response == "succes") {
-		// header('Location: index.php');
-		// exit();
+		header('Location: index.php');
+		exit();
 	} else {
 		array_push($formErrors, 'Something went wrong with the database :(');
 	}

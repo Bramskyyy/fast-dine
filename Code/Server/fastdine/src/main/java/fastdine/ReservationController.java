@@ -102,7 +102,7 @@ public class ReservationController {
             }
             
             for (int i = 0; i < tables.size(); i++) {
-              sql = "INSERT INTO tables_has_reservations (table_id, reservation_id) VALUES (" + tables.get(i) + ",1)";
+              sql = "INSERT INTO tables_has_reservations (table_id, reservation_id) VALUES (" + tables.get(i) + ",(SELECT id FROM reservations ORDER BY id DESC LIMIT 1))";
               
                 try {
                     jdbcTemplate.update(sql);

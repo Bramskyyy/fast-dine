@@ -177,6 +177,7 @@ h2.above-login-box {
 .overview {
 	margin: 0 auto;
 	width: 100%;
+	min-height: 100%;
 	background-color: #FAFAFA;
 	padding: 50px;
 	display: block;
@@ -273,6 +274,11 @@ h2.above-card {
 	margin: 0 auto;
 	padding: 20px 20px 0 0;
 	float: left;
+}
+
+.overview .home-filter {
+	float: none;
+	width: 100%;
 }
 
 .overview .filter #filterForm input, .overview .filter #filterForm select {

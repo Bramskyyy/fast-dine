@@ -7,23 +7,28 @@
 <div class="overview clearfix">
 	<div class="container clearfix">
 		<div class="filter">
-			<form id="filterForm" action="{{ PHP_SELF }}" method="post">
-				<input type="text" class="formControl" id="search" name="search" placeholder="Search by place name">
-				<select class="people formControl" id="people" name="people">
-					<option value="1">1 persoon</option>
-					<option value="2">2 personen</option>
-					<option value="3">3 personen</option>
-					<option value="4">4 personen</option>
-					<option value="5">5 personen</option>
-					<option value="6">6 personen</option>
-					<option value="7">7 personen</option>
-					<option value="8">8 personen</option>
-					<option value="9">9 personen</option>
-					<option value="10">10 personen</option>
+			<form id="filterForm" action="{{ PHP_SELF }}" method="get">
+				<input type="text" class="formControl" id="search" name="search" placeholder="Search">
+				<select class="seats formControl" id="seats" name="seats">
+					<option value="1" {% if seats == 1 %}selected="selected"{% endif %}>1 persoon</option>
+					<option value="2" {% if seats == 2 %}selected="selected"{% endif %}>2 personen</option>
+					<option value="3" {% if seats == 3 %}selected="selected"{% endif %}>3 personen</option>
+					<option value="4" {% if seats == 4 %}selected="selected"{% endif %}>4 personen</option>
+					<option value="5" {% if seats == 5 %}selected="selected"{% endif %}>5 personen</option>
+					<option value="6" {% if seats == 6 %}selected="selected"{% endif %}>6 personen</option>
+					<option value="7" {% if seats == 7 %}selected="selected"{% endif %}>7 personen</option>
+					<option value="8" {% if seats == 8 %}selected="selected"{% endif %}>8 personen</option>
+					<option value="9" {% if seats == 9 %}selected="selected"{% endif %}>9 personen</option>
+					<option value="10" {% if seats == 10 %}selected="selected"{% endif %}>10 personen</option>
 				</select>
-				<input type="date" id="date" name="date" class="formControl" />
-				<input type="time" id="time" name="time" step="1800" class="formControl" />
-				<input type="submit" name="name" value="Filter" />
+				<input type="date" id="date" name="date" class="formControl" value="{{ date }}" />
+				<select class="shift formControl" id="shift" name="shift">
+					<option value="1" {% if shift == 1 %}selected="selected"{% endif %}>13u00</option>
+					<option value="2" {% if shift == 2 %}selected="selected"{% endif %}>18u00</option>
+					<option value="3" {% if shift == 3 %}selected="selected"{% endif %}>20u00</option>
+				</select>
+				<input type="hidden" name="moduleAction" value="filter" />
+				<input type="submit" name="name" value="Zoek" />
 			</form>
 		</div>
 		<div class="restaurants clearfix">

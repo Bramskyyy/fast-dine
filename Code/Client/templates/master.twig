@@ -11,10 +11,6 @@
 		<section id="header" class="clearfix">
 			<nav>
 				<h1><a href="index.php">FastDine</a></h1>
-				<ul id="mainNav">
-					<li {% if active == "home" %}class="active"{% endif %}><a href="index.php">Home</a></li>
-					<li {% if active == "overview" %}class="active"{% endif %}><a href="overview.php">Restaurants</a></li>
-				</ul>
 				<ul id="secondaryNav">
 					{% if user is not null %}
 						<li {% if active == "account" %}class="active"{% endif %}><a href="#">{{ user.email }}</a></li>

@@ -1,4 +1,5 @@
 import dataEntities.*;
+import fastdine.RestaurantController;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -34,6 +35,8 @@ public class ControllerTests {
         exception.expect(RuntimeException.class);
         getReservationsByRestaurantIdAndShiftResult("test","test");
     }
+    
+
     
     //TODO - complete test
     @Test

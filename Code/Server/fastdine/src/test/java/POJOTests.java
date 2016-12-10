@@ -2,10 +2,6 @@ import dataEntities.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -28,7 +24,28 @@ public class POJOTests {
         assertEquals(c.getTelephone(), customerPhone);
         assertEquals(c.getType(), customerType);
         assertEquals(c.getPassword(), customerPswd);
+        
+        String toStringResult = "Klant [id=1, name='test', email='test@test.be', telephone='012334556789', type='klant', password='123']";
+        
+        assertEquals(c.toString(), toStringResult);
+        
+        int newID = 2;
+        
+        c.setId(newID);
+        
+        assertEquals(c.getId(), newID);
+        
+        User c2 = new User(customerName, customerEmail, customerPhone, customerType, customerPswd);
+        
+        assertEquals(c2.getName(), customerName);
+        assertEquals(c2.getEmail(), customerEmail);
+        assertEquals(c2.getTelephone(), customerPhone);
+        assertEquals(c2.getType(), customerType);
+        assertEquals(c2.getPassword(), customerPswd);
+        
     }
+    
+ 
     
     @Test
     public void testRestaurant() {
@@ -48,6 +65,19 @@ public class POJOTests {
         assertEquals(c.getEmail(), email);
         assertEquals(c.getTelephone(), telephone);
         assertEquals(c.getTables().isEmpty(), true);
+        assertEquals(c.getSeats(), seats);
+        
+        Table t = new Table(1, 1);
+        c.addTable(t);
+        
+        assertTrue(c.getTables().contains(t));
+        
+        String toStringResult = "Restaurant [id=" + Integer.toString(id) + ", name='" + name + "', location='" + location + "', email='" + email + "', telephone='" + telephone + "', seats='" + Integer.toString(seats) + "']";
+        
+        assertEquals(c.toString(), toStringResult);
+        
+        
+        
     }
     
     @Test
@@ -56,7 +86,7 @@ public class POJOTests {
         int id = 1;
         int tableNumber = 1;
         int seats = 1;
-        List<Reservation> reservations;
+        List<Reservation> reservations = new ArrayList<Reservation>();
                
         Table c = new Table(id, tableNumber, seats);
         
@@ -64,6 +94,17 @@ public class POJOTests {
         assertEquals(c.getTableNumber(), tableNumber);
         assertEquals(c.getSeats(), seats);
         assertEquals(c.getReservations().isEmpty(), true);
+        
+        User u = new User();
+        Reservation r = new Reservation(1, new Date(2016, 11, 27), 1, u);
+        
+        c.addReservation(r);       
+        reservations.add(r);        
+        assertTrue(c.getReservations().contains(r));
+        
+        String toStringResult = "Table{id=" + id + ", tableNumber=" + tableNumber + ", seats=" + seats + ", reservations=" + reservations.toString() + '}';       
+        assertEquals(c.toString(), toStringResult);
+
     }
     
     @Test

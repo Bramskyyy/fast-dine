@@ -46,7 +46,7 @@ public class Table {
 
     @Override
     public String toString() {
-        return "Table{" + "id=" + id + ", tableNumber=" + tableNumber + ", seats=" + seats + ", reservations=" + reservations + '}';
+        return "Table{" + "id=" + id + ", tableNumber=" + tableNumber + ", seats=" + seats + ", reservations=" + reservations.toString() + '}';
     }
     
     

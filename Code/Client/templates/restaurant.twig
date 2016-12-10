@@ -7,13 +7,22 @@
 		<div class="restaurant">
 			<div class="tables">
 				{% for table in tables %}
-					<div class="table">
+					<div class="table" data-id="{{ table.id }}">
 						<div class="img"></div>
 						<span class="seats">{{ table.seats }}</span>
 					</div>
 				{% endfor %}
 			</div>
-			<a href="#" class="book">Reserveer</a>
+			<form id="reserveForm" action="{{ PHP_SELF }}" method="post">
+				{% for table in tables %}
+					<input type="checkbox" name="check[]" value="{{ table.id }}" id="check-{{ table.id }}" />
+				{% endfor %}
+				<input type="hidden" name="shift" value="{{ shift }}" />
+				<input type="hidden" name="date" value="{{ date }}" />
+				<input type="hidden" name="id" value="{{ restaurant.id }}" />
+				<input type="hidden" name="moduleAction" value="book" />
+			</form>
+			<a href="#" class="book" id="submitForm">Reserveer</a>
 			<div class="details">
 				<p class="description">{{ description }}</p>
 			</div>

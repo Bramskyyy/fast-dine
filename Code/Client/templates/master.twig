@@ -35,13 +35,18 @@
 		<script type="text/javascript">
 			var selected = 0;
 			$(document).ready(function() {
-
 				$('.table').on('click', function() {
 					if ($(this).hasClass('selected')) {
 						$(this).removeClass('selected');
+
+						$('#check-' + $(this).attr('data-id')).prop('checked', false);
+
 						selected--;
 					} else {
 						$(this).addClass('selected');
+
+						$('#check-' + $(this).attr('data-id')).prop('checked', true);
+
 						selected++;
 					}
 
@@ -56,6 +61,10 @@
 					if (selected <= 0 || selected > 3) {
 						alert('Please select between 1 and 3 tables.');
 					}
+				});
+
+				$('#submitForm').on('click', function() {
+					$('#reserveForm').submit();
 				});
 			});
 		</script>

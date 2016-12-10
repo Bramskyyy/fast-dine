@@ -377,3 +377,7 @@ h2.above-card {
 .restaurant .tables .selected span.seats {
 	color: #30BC66;
 }
+
+.restaurant #reserveForm input[type="checkbox"] {
+	display: none;
+}

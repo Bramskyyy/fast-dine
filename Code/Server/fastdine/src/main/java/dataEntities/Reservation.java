@@ -9,6 +9,13 @@ public class Reservation {
     private final int shift;
     private final User customer;
     
+    public Reservation(Date date, int shift) {
+        this.id = 0;
+        this.date = date;
+        this.shift = shift;
+        this.customer = null;
+    }
+    
     public Reservation(int reservationId, Date date, int shift, User customer) {
         this.id = reservationId;
         this.date = date;

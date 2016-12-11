@@ -121,5 +121,12 @@ public class POJOTests {
         assertEquals(c.getDate(), date);
         assertEquals(c.getShift(), shift);
         assertEquals(c.getCustomer(), customer);
+        
+        Reservation c1 = new Reservation(date, shift);
+        
+        assertEquals(c1.getId(), 0);
+        assertEquals(c1.getDate(), date);
+        assertEquals(c1.getShift(), shift);
+        assertEquals(c1.getCustomer(), null);
     }
 }

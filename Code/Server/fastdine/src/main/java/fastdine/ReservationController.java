@@ -22,10 +22,39 @@ public class ReservationController {
     
     private List<String> reservations;
     
-    @RequestMapping("/test")
-    public boolean test ()
+    @RequestMapping("/deleteReservation")
+    public boolean removeReservation(@RequestParam(value="id") String id, @RequestParam(value="date") String date, @RequestParam(value="shift") String shift)
     {
-        return true;
+        if (!id.isEmpty() && !date.isEmpty() && !shift.isEmpty()) {
+            sql = "delete from reservations where date = '" + date + "' and shift = " + shift + " and user_id = " + id + ";";
+            
+            try {
+                jdbcTemplate.update(sql);
+                return true;
+            } 
+            catch (Exception e) {
+                return false;
+            }
+        }
+        
+        return false;
+    }
+    
+    @RequestMapping("/reservationsByUserId")
+    public List<Reservation> getReservationsByUserId(@RequestParam(value="id") String id) {
+        List<Reservation> reservationsByUserId = new ArrayList<Reservation>();
+        
+        if (!id.isEmpty() && !id.equals("0")) {
+            sql = "select date, shift from reservations where user_id = '" + id + "';";
+            
+            jdbcTemplate.query(
+            sql,
+            (rs, rowNum) -> reservationsByUserId.add(new Reservation(rs.getDate("date"),rs.getInt("shift"))));
+        }
+        
+        if (!reservationsByUserId.isEmpty()) return reservationsByUserId;
+               
+        return null;
     }
     
     @RequestMapping("/reservations")
@@ -78,7 +107,7 @@ public class ReservationController {
     
     //Create
     @RequestMapping("/newReservation")
-    public String newReservation (@RequestParam(value="date") String date, @RequestParam(value="shift") int shift, @RequestParam(value="email") String userEmail, @RequestParam(value="table1") int table1, @RequestParam(value="table2", defaultValue="-1") int table2, @RequestParam(value="table3", defaultValue="-1") int table3) {
+    public boolean newReservation (@RequestParam(value="date") String date, @RequestParam(value="shift") int shift, @RequestParam(value="email") String userEmail, @RequestParam(value="table1") int table1, @RequestParam(value="table2", defaultValue="-1") int table2, @RequestParam(value="table3", defaultValue="-1") int table3) {
         if (!date.isEmpty() && shift >= 1 && shift <= 3 && !userEmail.isEmpty()) {
             List<Integer> tables = new ArrayList<Integer>();
             
@@ -98,7 +127,7 @@ public class ReservationController {
                 jdbcTemplate.update(sql);
             } 
             catch (Exception e) {
-                return e.getMessage();
+                return false;
             }
             
             for (int i = 0; i < tables.size(); i++) {
@@ -108,13 +137,13 @@ public class ReservationController {
                     jdbcTemplate.update(sql);
                 } 
                 catch (Exception e) {
-                    return e.getMessage();
+                    return false;
                 }
             }
 
-            return "succes";
+            return true;
         }
         
-        return "parameters incorrect";
+        return false;
     }
 }

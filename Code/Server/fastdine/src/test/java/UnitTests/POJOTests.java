@@ -105,6 +105,7 @@ public class POJOTests {
         Date date = new Date(2016, 11, 27);
         int shift = 1;
         User customer = new User();
+        String restaurant = "restaurant";
                
         Reservation reservation1 = new Reservation(id, date, shift, customer);
         
@@ -113,11 +114,12 @@ public class POJOTests {
         assertEquals(reservation1.getShift(), shift);
         assertEquals(reservation1.getCustomer(), customer);
         
-        Reservation reservation2 = new Reservation(date, shift);
+        Reservation reservation2 = new Reservation(date, shift, restaurant);
         
         assertEquals(reservation2.getId(), 0);
         assertEquals(reservation2.getDate(), date);
         assertEquals(reservation2.getShift(), shift);
         assertEquals(reservation2.getCustomer(), null);
+        assertEquals(reservation2.getRestaurantName(), restaurant);
     }
 }

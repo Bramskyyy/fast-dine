@@ -1,22 +1,33 @@
 package UnitTests;
 
 import ControllerTestsLogic.UserControllerTestLogic;
+import Helper.FileReader;
 import fastdine.UserController;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Statement;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
 public class UserControllerTests {
+    private UserController userController;
+    
     @Rule
     public final ExpectedException exception = ExpectedException.none();
     
+    @Before
+    public void setController() {
+        userController = new UserController();
+    }
+    
     @Test
-    public void testNewUser() {
-        UserController uc = new UserController();
-        
+    public void testNewUser() {        
         int customerId = 1;
         String customerName = "test";
         String customerEmail = "test@test.be";
@@ -24,28 +35,26 @@ public class UserControllerTests {
         String customerType = "klant";
         String customerPswd = "123";
               
-        assertFalse(uc.newUser(customerName, "", customerPhone, customerType, customerPswd));
-        assertFalse(uc.newUser(customerName, customerEmail, customerPhone, "", customerPswd));
-        assertFalse(uc.newUser(customerName, customerEmail, customerPhone, customerType, ""));
+        assertFalse(userController.newUser(customerName, "", customerPhone, customerType, customerPswd));
+        assertFalse(userController.newUser(customerName, customerEmail, customerPhone, "", customerPswd));
+        assertFalse(userController.newUser(customerName, customerEmail, customerPhone, customerType, ""));
         
-        assertFalse(uc.newUser(customerName, "", customerPhone, customerType, ""));
-        assertFalse(uc.newUser(customerName, customerEmail, customerPhone, "", ""));
-        assertFalse(uc.newUser(customerName, "", customerPhone, "", customerPswd));
+        assertFalse(userController.newUser(customerName, "", customerPhone, customerType, ""));
+        assertFalse(userController.newUser(customerName, customerEmail, customerPhone, "", ""));
+        assertFalse(userController.newUser(customerName, "", customerPhone, "", customerPswd));
         
-        assertFalse(uc.newUser(customerName, "", customerPhone, "", ""));
+        assertFalse(userController.newUser(customerName, "", customerPhone, "", ""));
         
-        assertFalse(uc.newUser(customerName, customerEmail, customerPhone, customerType, customerPswd));
+        assertFalse(userController.newUser(customerName, customerEmail, customerPhone, customerType, customerPswd));
     }
     
     @Test
     public void testGetUserPassword() {
-        UserController uc = new UserController();
         String customerEmail = "test@test.be";
         String expectedException = "Exception: null";
         
-        assertEquals(uc.getUserPasswordByEmail(""), null);
-        assertEquals(uc.getUserPasswordByEmail(customerEmail), expectedException);
-        
+        assertEquals(userController.getUserPasswordByEmail(""), null);
+        assertEquals(userController.getUserPasswordByEmail(customerEmail), expectedException);
     }
     
     @Test
@@ -59,18 +68,27 @@ public class UserControllerTests {
         testLogic.getUserPasswordByEmailResult("");
     }
     
-    //TODO - complete test
     @Test
     public void newUserTest() throws Exception {
         String email = "testgebruiker@student.odisee.be";
         String type = "customer";
         String password = "123";
-
-        //assertTrue(Boolean.parseBoolean(getValueFromURL("http://localhost:8080/newUser?email=testgebruiker1&type=customer&password=123")));
-        //assertFalse(Boolean.parseBoolean(getValueFromURL("http://localhost:8080/newUser?email=testgebruiker1&type=customer&password=123")));
         
-        // Vraag gebruiker op via sql
-        // Id != null bool = true else return false;
-        // (bool) remove user where id = Id
+        FileReader reader = new FileReader();
+
+        assertTrue(Boolean.parseBoolean(reader.getValueFromURL("http://localhost:8080/newUser?email=" + email + "&type=" + type + "&password=" + password)));
+        assertFalse(Boolean.parseBoolean(reader.getValueFromURL("http://localhost:8080/newUser?email=" + email + "&type=" + type + "&password=" + password)));
+        
+        try {
+            Class.forName("com.mysql.jdbc.Driver").newInstance();
+            try (Connection con = DriverManager.getConnection("jdbc:mysql://10.129.32.188/fastdine", "root", "Azerty123")) {
+                Statement st = con.createStatement();
+                String sql = ("DELETE FROM users WHERE email = '" + email + "' AND type = '" + type + "' AND password = '" + password + "';");
+                st.executeUpdate(sql);
+            }
+        }
+        catch (ClassNotFoundException | IllegalAccessException | InstantiationException | SQLException e) {
+            throw e;
+        }
     }
 }

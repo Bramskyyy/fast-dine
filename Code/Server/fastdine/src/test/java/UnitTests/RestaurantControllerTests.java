@@ -7,6 +7,7 @@ import fastdine.RestaurantController;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,41 +15,63 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
 public class RestaurantControllerTests {
+    private RestaurantControllerTestLogic testLogic;
+    private RestaurantController restaurantController;
+            
     @Rule
     public final ExpectedException exception = ExpectedException.none();
     
+    @Before
+    public void setController() {
+        testLogic = new RestaurantControllerTestLogic();
+        restaurantController = new RestaurantController();
+    }
+    
+    
     @Test
     public void testGetAllRestaurants() {
-        RestaurantController rc = new RestaurantController();
         exception.expect(RuntimeException.class);      
-        rc.getAllRestaurants();
+        restaurantController.getAllRestaurants();
     }
     
     @Test
     public void testGetRestaurantById() {
-        RestaurantController rc = new RestaurantController();
         String id = "1";
+        
         exception.expect(RuntimeException.class);             
-        rc.getRestaurantById(id);
+        restaurantController.getRestaurantById(id);
     }
     
     @Test
     public void testGetRestaurantByName() {
-        RestaurantController rc = new RestaurantController();
         String name = "test";
+        
         exception.expect(RuntimeException.class);             
-        rc.getRestaurantByName(name);
+        restaurantController.getRestaurantByName(name);
+    }
+    
+    @Test
+    public void getRestaurantByNONExistingIdTest() throws Exception {
+//        String expectedException = "HTTP error code : 400";
+//        
+//        assertEquals(testLogic.getRestaurantByIdResult("0"), expectedException);
+    }
+    
+    @Test
+    public void getRestaurantByIdTest () throws Exception {
+//        assertTrue(testLogic.getRestaurantByIdResult("1"));
+//        exception.expect(NullPointerException.class);
+//        testLogic.getRestaurantByIdResult(null);
     }
     
     @Test
     public void getRestaurantByNameTest () throws Exception {
-        RestaurantControllerTestLogic testLogic = new RestaurantControllerTestLogic();
-        
         assertTrue(testLogic.getRestaurantByNameResult("de"));
         assertTrue(testLogic.getRestaurantByNameResult(""));
         exception.expect(NullPointerException.class);
@@ -57,8 +80,8 @@ public class RestaurantControllerTests {
        
     @Test
     public void getAllRestaurantsTest () throws Exception {
-        List<Restaurant> restosAPI = new ArrayList<Restaurant>();
-        List<Restaurant> restosSQL = new ArrayList<Restaurant>();
+        List<Restaurant> restosAPI = new ArrayList<>();
+        List<Restaurant> restosSQL = new ArrayList<>();
         
         FileReader reader = new FileReader();
         
@@ -78,30 +101,28 @@ public class RestaurantControllerTests {
             int seats = mJsonObject.getInt("seats");
 
             restosAPI.add(new Restaurant(id, name, location, email, telephone, seats));
-        };
+        }
                      
         try {
             Class.forName("com.mysql.jdbc.Driver").newInstance();
-            Connection con = DriverManager.getConnection("jdbc:mysql://10.129.32.188/fastdine", "root", "Azerty123");
-
-            Statement st = con.createStatement();
-            String sql = ("SELECT * FROM restaurants;");
-            ResultSet rs = st.executeQuery(sql);
-           
-            while (rs.next()) { 
-                int id = rs.getInt("id"); 
-                String name = rs.getString("name");
-                String location = rs.getString("location");
-                String email = rs.getString("email");
-                String telephone = rs.getString("telephone");
-                int seats = rs.getInt("seats");
+            try (Connection con = DriverManager.getConnection("jdbc:mysql://10.129.32.188/fastdine", "root", "Azerty123")) {
+                Statement st = con.createStatement();
+                String sql = ("SELECT * FROM restaurants;");
+                ResultSet rs = st.executeQuery(sql);
                 
-                restosSQL.add(new Restaurant(id, name, location, email, telephone, seats));
+                while (rs.next()) {
+                    int id = rs.getInt("id");
+                    String name = rs.getString("name");
+                    String location = rs.getString("location");
+                    String email = rs.getString("email");
+                    String telephone = rs.getString("telephone");
+                    int seats = rs.getInt("seats");
+                    
+                    restosSQL.add(new Restaurant(id, name, location, email, telephone, seats));
+                }
             }
-
-            con.close(); 
         }
-        catch (Exception e) {
+        catch (ClassNotFoundException | IllegalAccessException | InstantiationException | SQLException e) {
             throw e;
         }
         
@@ -109,11 +130,5 @@ public class RestaurantControllerTests {
         
         int x = 0;
         for (Restaurant r : restosSQL) assertEquals(r.toString(), restosAPI.get(x++).toString());
-    }
-    
-    //TODO - complete test
-    @Test
-    public void getRestaurantByIdTest () throws Exception {
-    
     }
 }

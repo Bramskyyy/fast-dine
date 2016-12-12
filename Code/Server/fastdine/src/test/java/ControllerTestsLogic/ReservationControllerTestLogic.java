@@ -62,8 +62,8 @@ public class ReservationControllerTestLogic {
         return false;
     }
     
-    public boolean getReservationsByRestaurantIdAndShiftResult (String id, String shift) throws Exception {
-        String valueAPI = reader.getValueFromURL("http://localhost:8080/reservations?id=" + id + "&shift=" + shift);
+    public boolean getReservationsByRestaurantIdAndDateResult (String id, String date) throws Exception {
+        String valueAPI = reader.getValueFromURL("http://localhost:8080/reservations?id=" + id + "&date=" + date);
         String valueSQL = "[";
         
         boolean cont = true;
@@ -78,7 +78,7 @@ public class ReservationControllerTestLogic {
                         "inner join tables on tables_has_reservations.table_id = tables.id " +
                         "inner join restaurants on tables.restaurant_id = restaurants.id " +
                         "WHERE restaurants.id = " + id +
-                        " AND reservations.shift = " + shift + ";");
+                        " AND reservations.date = " + date + ";");
                 ResultSet rs = st.executeQuery(sql);
                 
                 cont = rs.first();
@@ -88,9 +88,9 @@ public class ReservationControllerTestLogic {
                 while (rs.next()) {
                     String name = rs.getString("name");
                     String telephone = rs.getString("telephone");
-                    String date  = rs.getDate("date").toString();
+                    String _date  = rs.getDate("date").toString();
                     String tablenumber = Integer.toString(rs.getInt("tablenumber"));
-                    valueSQL +=  "\"" + name + "\",\"" + telephone + "\",\"" + date + "\",\"" + tablenumber + "\",";
+                    valueSQL +=  "\"" + name + "\",\"" + telephone + "\",\"" + _date + "\",\"" + tablenumber + "\",";
                 }
             }
         }

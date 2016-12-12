@@ -33,7 +33,8 @@ public class ReservationControllerTests {
         assertFalse(rc.newReservation(date, shift, userEmail, table1, -1, table3));
         assertFalse(rc.newReservation(date, shift, userEmail, table1, table2, -1));
         
-        assertFalse(rc.newReservation(date, shift, userEmail, table1, table2, table3));
+        exception.expect(NullPointerException.class);
+        rc.newReservation(date, shift, userEmail, table1, table2, table3);
     }
     
     @Test
@@ -41,21 +42,21 @@ public class ReservationControllerTests {
         ReservationController rc = new ReservationController();
         
         int id = 1;
-        String shift = "";
+        String date = "2017/01/01";
         
         exception.expect(RuntimeException.class);
-        rc.getReservationsByRestaurantIdAndShift(id, shift);
+        rc.getReservationsByRestaurantIdAndDate(id, date);
     }
     
     @Test
-    public void testGetReservationsByRestaurantIdAndShift() {
+    public void testGetReservationsByRestaurantIdAndDate() {
         ReservationController rc = new ReservationController();
         
         int id = 1;
-        String shift = "1";
+        String date = "2017/01/01";
         
         exception.expect(RuntimeException.class);
-        rc.getReservationsByRestaurantIdAndShift(id, shift);
+        rc.getReservationsByRestaurantIdAndDate(id, date);
     }
     
     @Test
@@ -81,7 +82,8 @@ public class ReservationControllerTests {
         assertFalse(rc.removeReservation(id, "", shift));
         assertFalse(rc.removeReservation(id, date, ""));
         
-        assertFalse(rc.removeReservation(id, date, shift));
+        exception.expect(NullPointerException.class);
+        rc.removeReservation(id, date, shift);
     }
     
     @Test
@@ -90,11 +92,11 @@ public class ReservationControllerTests {
         
         assertTrue(testLogic.getReservationsByRestaurantIdResult("0"));
         assertTrue(testLogic.getReservationsByRestaurantIdResult("1"));
-        assertTrue(testLogic.getReservationsByRestaurantIdAndShiftResult("0","3"));
-        assertTrue(testLogic.getReservationsByRestaurantIdAndShiftResult("1","3"));
-        assertTrue(testLogic.getReservationsByRestaurantIdAndShiftResult("1","0"));
+        assertTrue(testLogic.getReservationsByRestaurantIdAndDateResult("0","3"));
+        assertTrue(testLogic.getReservationsByRestaurantIdAndDateResult("1","3"));
+        assertTrue(testLogic.getReservationsByRestaurantIdAndDateResult("1","0"));
         exception.expect(RuntimeException.class);
-        testLogic.getReservationsByRestaurantIdAndShiftResult("test","test");
+        testLogic.getReservationsByRestaurantIdAndDateResult("test","test");
     }
     
     //TODO - complete test 

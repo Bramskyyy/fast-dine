@@ -30,9 +30,7 @@ public class ReservationControllerTests {
         assertFalse(rc.newReservation(date, shift, "", table1, table2, table3));
         
         assertFalse(rc.newReservation(date, shift, userEmail, -1, table2, table3));
-        assertFalse(rc.newReservation(date, shift, userEmail, table1, -1, table3));
-        assertFalse(rc.newReservation(date, shift, userEmail, table1, table2, -1));
-        
+       
         exception.expect(NullPointerException.class);
         rc.newReservation(date, shift, userEmail, table1, table2, table3);
     }

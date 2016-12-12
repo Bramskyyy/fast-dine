@@ -111,8 +111,8 @@ public class ReservationController {
             List<Integer> tables = new ArrayList<>();
             
             if(table1 != -1) tables.add(table1); else return false;
-            if(table2 != -1) tables.add(table2); else return false;
-            if(table3 != -1) tables.add(table3); else return false;
+            if(table2 != -1) tables.add(table2);
+            if(table3 != -1) tables.add(table3);
             
             if (tables.isEmpty()) return false;
             

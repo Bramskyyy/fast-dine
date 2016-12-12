@@ -11,7 +11,7 @@ public class UserControllerTestLogic {
     public boolean getUserPasswordByEmailResult (String email) throws Exception {
         FileReader reader = new FileReader();
         
-        String passwordAPI = reader.getValueFromURL("http://localhost:8080/userPassword?email=" + email);
+        String passwordAPI = reader.getValueFromURL("http://localhost:8080/user?email=" + email);
         if (passwordAPI.equals("Exception: Incorrect result size: expected 1, actual 0")) passwordAPI = null;
         String passwordSQL = "";
         boolean cont = true;

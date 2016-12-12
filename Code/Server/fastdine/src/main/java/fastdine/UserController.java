@@ -26,7 +26,7 @@ public class UserController {
             {
                 User userByEmail = new User();
                 if (!userEmail.isEmpty() && !userEmail.equals("0")) {            
-                    userByEmail = jdbcTemplate.queryForObject(sql,new Object[] { userEmail }, (rs, rowNum) -> new User(rs.getInt("id"), rs.getString("name"), rs.getString("email"), rs.getString("telephone"), rs.getString("type"), rs.getString("password")));
+                    userByEmail = jdbcTemplate.queryForObject(sql, new Object[] { userEmail }, (rs, rowNum) -> new User(rs.getInt("id"), rs.getString("name"), rs.getString("email"), rs.getString("telephone"), rs.getString("type"), rs.getString("password")));
                 }
         
                 return userByEmail;

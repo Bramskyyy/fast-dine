@@ -26,9 +26,12 @@ foreach ($restaurants as $key => $value) {
 	$api_tables = $api . '/tables?id=' . $value->id . '&shift=' . $shift . '&date=' . $date;
 	$tables = json_decode(file_get_contents($api_tables));
 	$seats = 0;
-	foreach ($tables as $value) {
-		$seats += $value->seats;
+	if (!empty($tables)) {
+		foreach ($tables as $value) {
+			$seats += $value->seats;
+		}
 	}
+
 	$restaurants[$key]->seats = $seats;
 }
 

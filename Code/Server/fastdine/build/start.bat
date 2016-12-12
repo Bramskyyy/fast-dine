@@ -1,2 +1,2 @@
 cd "C:\Program Files (x86)\javaexecutes\libs"
-start "win_title" java -jar fastdine-JAR-0.1.X.jar. --server.port=8090
+java -jar fastdine-JAR-0.1.X.jar. --server.port=8090

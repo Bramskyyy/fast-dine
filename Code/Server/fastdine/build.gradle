@@ -15,7 +15,7 @@ apply plugin: 'org.springframework.boot'
 apply plugin: "application"
 apply plugin: "jacoco"
 
-mainClassName = 'com.fastdine.Application'
+mainClassName = 'fastdine.Application'
 
 jacoco {
     applyTo run

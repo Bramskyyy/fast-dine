@@ -35,9 +35,10 @@ if (isset($_POST['moduleAction']) && ($_POST['moduleAction'] == 'login')) {
 
 		//  API Connection
 		$api = 'http://localhost:8080';
-		$api_password = $api . '/userPassword?email=' . $email;
+		$api_user = $api . '/user?email=' . $email;
 
-		$hash = file_get_contents($api_password);
+		$user = json_decode(file_get_contents($api_user));
+		$hash = $user->password;
 
 		if (empty($hash)) {
 			array_push($formErrors, 'Invalid email and/or password');
@@ -45,8 +46,8 @@ if (isset($_POST['moduleAction']) && ($_POST['moduleAction'] == 'login')) {
 			if (password_verify($password, $hash)) {
 
 				// store user (usually returned from database) in session
-				$_SESSION['user'] = array('email' => $email);
-				setcookie('persist', $user['email']);
+				$_SESSION['user'] = $user;
+				setcookie('persist', $user->email);
 
 				// redirect to index
 				header('Location: index.php');

@@ -13,7 +13,7 @@
 				<h1><a href="index.php">FastDine</a></h1>
 				<ul id="secondaryNav">
 					{% if user is not null %}
-						<li {% if active == "account" %}class="active"{% endif %}><a href="#">{{ user.email }}</a></li>
+						<li {% if active == "account" %}class="active"{% endif %}><a href="account.php">reservaties</a></li>
 						<li ><a href="logout.php">Log out</a></li>
 					{% else %}
 						<li {% if active == "login" %}class="active"{% endif %}><a href="login.php">Log in</a></li>
@@ -45,22 +45,14 @@
 
 						selected++;
 					}
-
-					if (selected > 0) {
-						$('.book').removeClass('disabled');
-					} else {
-						$('.book').addClass('disabled');
-					}
-				});
-
-				$('.book').on('click', function() {
-					if (selected <= 0 || selected > 3) {
-						alert('Please select between 1 and 3 tables.');
-					}
 				});
 
 				$('#submitForm').on('click', function() {
-					$('#reserveForm').submit();
+					if (selected <= 0 || selected > 3) {
+						alert('Selecteer minimum 1 en maximum 3 tafels');
+					} else {
+						$('#reserveForm').submit();
+					}
 				});
 			});
 		</script>

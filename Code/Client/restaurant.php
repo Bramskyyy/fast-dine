@@ -42,7 +42,7 @@ if (isset($_POST['moduleAction']) && ($_POST['moduleAction'] == 'book')) {
 		}
 	}
 
-	$api_reservation = $api . "/newReservation?date=" . $_POST['date'] . "&shift=" . $_POST['shift'] . "&email=" . $_SESSION["user"]["email"] . $tables;
+	$api_reservation = $api . "/newReservation?date=" . $_POST['date'] . "&shift=" . $_POST['shift'] . "&email=" . $_SESSION["user"]->email . $tables;
 
 	$response = file_get_contents($api_reservation);
 

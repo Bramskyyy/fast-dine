@@ -13,7 +13,7 @@ session_start();
 
 $user = isset($_SESSION['user']) ? $_SESSION['user'] : header('Location: login.php');
 
-$api = 'http://localhost:8080';
+$api = 'http://localhost:8090';
 $api_reservations = $api . '/reservationsByUserId?id=' . $user->id;
 
 if (isset($_GET["moduleAction"]) && $_GET["moduleAction"] == "delete") {

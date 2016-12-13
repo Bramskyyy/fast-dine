@@ -34,7 +34,7 @@ if (isset($_POST['moduleAction']) && ($_POST['moduleAction'] == 'login')) {
 	else {
 
 		//  API Connection
-		$api = 'http://localhost:8080';
+		$api = 'http://localhost:8090';
 		$api_user = $api . '/user?email=' . $email;
 
 		$user = json_decode(file_get_contents($api_user));

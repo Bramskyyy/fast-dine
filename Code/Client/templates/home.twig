@@ -8,7 +8,7 @@
 	<div class="container">
 		<div class="filter home-filter">
 			<form id="filterForm" action="overview.php" method="get">
-				<input type="text" class="formControl" id="search" name="search" placeholder="Search">
+				<input type="text" class="formControl" id="name" name="name" placeholder="Restaurant" value="{{ name }}">
 				<select class="seats formControl" id="seats" name="seats">
 					<option value="1" {% if seats == 1 %}selected="selected"{% endif %}>1 persoon</option>
 					<option value="2" {% if seats == 2 %}selected="selected"{% endif %}>2 personen</option>
@@ -28,7 +28,7 @@
 					<option value="3" {% if shift == 3 %}selected="selected"{% endif %}>20u00</option>
 				</select>
 				<input type="hidden" name="moduleAction" value="filter" />
-				<input type="submit" name="name" value="Zoek" />
+				<input type="submit" name="search" value="Zoek" />
 			</form>
 		</div>
 	</div>

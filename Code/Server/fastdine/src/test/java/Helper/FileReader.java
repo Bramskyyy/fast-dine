@@ -28,11 +28,9 @@ public class FileReader {
             return output;
             
         } catch (MalformedURLException e) {
-              e.printStackTrace();
+              return null;
         } catch (IOException e) {
-              e.printStackTrace();
-        }       
-        
-        return null;
+              return null;
+        }
     }
 }

@@ -13,7 +13,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 public class RestaurantControllerTestLogic {
-    private FileReader reader;
+    private final FileReader reader;
     
     public RestaurantControllerTestLogic() {
         reader = new FileReader();

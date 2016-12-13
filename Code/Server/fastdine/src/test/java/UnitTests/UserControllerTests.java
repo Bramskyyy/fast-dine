@@ -1,6 +1,5 @@
 package UnitTests;
 
-import ControllerTestsLogic.UserControllerTestLogic;
 import Helper.FileReader;
 import fastdine.UserController;
 import java.sql.Connection;

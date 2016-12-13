@@ -47,7 +47,7 @@ if (isset($_POST['moduleAction']) && ($_POST['moduleAction'] == 'book')) {
 	$response = file_get_contents($api_reservation);
 
 	if ($response == "succes") {
-		header('Location: index.php');
+		header('Location: account.php');
 		exit();
 	} else {
 		array_push($formErrors, 'Something went wrong with the database :(');
@@ -58,8 +58,8 @@ if (isset($_POST['moduleAction']) && ($_POST['moduleAction'] == 'book')) {
 $restaurant_id = $_GET['id'] ? $_GET['id'] : header('Location: overview.php');
 
 $api_restaurant = $api . '/restaurantid?id=' . $restaurant_id;
-$shift = "1";
-$date = "2017-01-01";
+$shift = isset($_GET['shift']) ? $_GET['shift'] : header('Location: index.php');
+$date = !empty($_GET['date']) ? $_GET['date'] : header('Location: index.php');
 $api_tables = $api . '/tables?id=' . $restaurant_id . '&shift=' . $shift . '&date=' . $date;
 
 $json_restaurant = file_get_contents($api_restaurant);

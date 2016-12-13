@@ -18,6 +18,12 @@ $date = !empty($_GET['date']) ? $_GET['date'] : header('Location: index.php');
 $api = 'http://localhost:8080';
 $api_overview = $api . '/restaurants';
 
+if (isset($_GET["name"]) && $_GET["name"] != "") {
+	$api_overview = $api . "/restaurant?name=" .$_GET["name"];
+	var_dump($api_overview);
+}
+
+
 $json = file_get_contents($api_overview);
 
 $restaurants = json_decode($json);
@@ -52,5 +58,6 @@ echo $tpl->render(array(
 	'user' => isset($_SESSION['user']) ? $_SESSION['user'] : null,
 	'seats' => $min_seats,
 	'date' => $date,
-	'shift' => $shift
+	'shift' => $shift,
+	'name' => isset($_GET['name']) ? $_GET['name'] : ""
 ));

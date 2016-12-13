@@ -18,7 +18,7 @@ public class RestaurantController {
     
     @RequestMapping("/restaurantid")
     public Restaurant getRestaurantById(@RequestParam(value="id") String id) {
-        restaurants = new ArrayList<Restaurant>();
+        restaurants = new ArrayList<>();
         
         sql = "SELECT * FROM restaurants WHERE id = '" + id + "'";
         
@@ -27,7 +27,7 @@ public class RestaurantController {
             (rs, rowNum) -> restaurants.add(new Restaurant(rs.getInt("id"), rs.getString("name"), rs.getString("location"), rs.getString("email"), rs.getString("telephone"), rs.getInt("seats")))
          );
         
-        if (restaurants.size() != 0) return restaurants.get(0);
+        if (!restaurants.isEmpty()) return restaurants.get(0);
             
         return null;
     }
@@ -35,7 +35,7 @@ public class RestaurantController {
     @RequestMapping("/restaurant")
     public List<Restaurant> getRestaurantByName(@RequestParam(value="name") String restaurantName) {
         
-        restaurants = new ArrayList<Restaurant>();
+        restaurants = new ArrayList<>();
         
         // Will match any string containing a part or the entire name
         sql = "SELECT * FROM restaurants WHERE name LIKE '%" + restaurantName + "%'";
@@ -45,7 +45,7 @@ public class RestaurantController {
             (rs, rowNum) -> restaurants.add(new Restaurant(rs.getInt("id"), rs.getString("name"), rs.getString("location"), rs.getString("email"), rs.getString("telephone"), rs.getInt("seats")))
          );
         
-        if (restaurants.size() != 0) return restaurants;
+        if (!restaurants.isEmpty()) return restaurants;
             
         return null;
     }
@@ -53,8 +53,7 @@ public class RestaurantController {
     // Returns a list with all restaurants
     @RequestMapping("/restaurants")
     public List<Restaurant> getAllRestaurants() {
-        
-        restaurants = new ArrayList<Restaurant>();    
+        restaurants = new ArrayList<>();    
         sql = "SELECT * FROM restaurants";
         
         jdbcTemplate.query(
@@ -62,7 +61,7 @@ public class RestaurantController {
             (rs, rowNum) -> restaurants.add(new Restaurant(rs.getInt("id"), rs.getString("name"), rs.getString("location"), rs.getString("email"), rs.getString("telephone"), rs.getInt("seats")))
         );
 
-        if (restaurants.size() != 0) return restaurants;
+        if (!restaurants.isEmpty()) return restaurants;
             
         return null;
     }

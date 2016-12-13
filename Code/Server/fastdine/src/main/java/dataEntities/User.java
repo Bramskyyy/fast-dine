@@ -1,13 +1,12 @@
 package dataEntities;
 
 public class User {
-    
     private int id;
-    private String name;
-    private String email;
-    private String telephone;
-    private String type;
-    private String password;
+    private final String name;
+    private final String email;
+    private final String telephone;
+    private final String type;
+    private final String password;
 
     public User() {
         this.id = 0;

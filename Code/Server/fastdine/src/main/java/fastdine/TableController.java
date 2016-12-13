@@ -20,7 +20,7 @@ public class TableController {
     // Returns all free tables and their amount of seats for a given resto ID, shift and date
     @RequestMapping("/tables")
     public List<Table> getTablesByRestaurantIdAndShiftAndDate(@RequestParam(value="id") int id, @RequestParam(value="shift") String shift, @RequestParam(value="date") String date) {
-        List<Table> tables = new ArrayList<Table>();
+        List<Table> allTables = new ArrayList<>();
         
         sql = "select tables.id as tablesID, tables.seats as tablesSeats from tables " +
             "where tables.restaurant_id = " + id + " " + 
@@ -35,10 +35,10 @@ public class TableController {
         
         jdbcTemplate.query(
             sql,
-            (rs, rowNum) -> tables.add(new Table(rs.getInt("tablesID"), rs.getInt("tablesSeats")))
+            (rs, rowNum) -> allTables.add(new Table(rs.getInt("tablesID"), rs.getInt("tablesSeats")))
         );
       
-        if (!tables.isEmpty()) return tables;
+        if (!allTables.isEmpty()) return allTables;
                
         return null;
     }

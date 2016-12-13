@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Restaurant {
-
     private final int id;
     private final String name;
     private final String location;
@@ -20,7 +19,7 @@ public class Restaurant {
         this.email = email;
         this.telephone = telephone;
         this.seats = seats;
-        this.tables = new ArrayList<Table>();
+        this.tables = new ArrayList<>();
     }
     
     public void addTable(Table table) {

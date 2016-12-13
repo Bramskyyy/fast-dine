@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Table {
-    
     private final int id;
     private final int tableNumber;
     private final int seats;
@@ -14,14 +13,14 @@ public class Table {
         this.id = tableId;
         this.tableNumber = tableNumber;
         this.seats = seats;
-        this.reservations = new ArrayList<Reservation>();
+        this.reservations = new ArrayList<>();
     }
     
     public Table(int tableID, int seats) {
         this.id = tableID;
         this.tableNumber = 0;
         this.seats = seats;
-        this.reservations = new ArrayList<Reservation>();        
+        this.reservations = new ArrayList<>();        
     }
     
     public void addReservation(Reservation reservation) {
@@ -48,6 +47,4 @@ public class Table {
     public String toString() {
         return "Table{" + "id=" + id + ", tableNumber=" + tableNumber + ", seats=" + seats + ", reservations=" + reservations.toString() + '}';
     }
-    
-    
 }

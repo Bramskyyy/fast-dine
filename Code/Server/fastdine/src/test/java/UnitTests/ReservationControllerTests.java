@@ -89,7 +89,6 @@ public class ReservationControllerTests {
         ReservationControllerTestLogic testLogic = new ReservationControllerTestLogic();
         
         assertTrue(testLogic.getReservationsByRestaurantIdResult("0"));
-        assertTrue(testLogic.getReservationsByRestaurantIdResult("1"));
         assertTrue(testLogic.getReservationsByRestaurantIdAndDateResult("0","3"));
         assertTrue(testLogic.getReservationsByRestaurantIdAndDateResult("1","3"));
         assertTrue(testLogic.getReservationsByRestaurantIdAndDateResult("1","0"));

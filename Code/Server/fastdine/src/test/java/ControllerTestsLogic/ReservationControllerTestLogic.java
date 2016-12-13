@@ -15,7 +15,7 @@ public class ReservationControllerTestLogic {
     }
     
     public boolean getReservationsByRestaurantIdResult (String id) throws Exception {
-        String valueAPI = reader.getValueFromURL("http://localhost:8080/reservations?id=" + id);
+        String valueAPI = reader.getValueFromURL("http://localhost:8090/reservations?id=" + id);
         String valueSQL = "[";
         
         boolean cont = true;
@@ -63,7 +63,7 @@ public class ReservationControllerTestLogic {
     }
     
     public boolean getReservationsByRestaurantIdAndDateResult (String id, String date) throws Exception {
-        String valueAPI = reader.getValueFromURL("http://localhost:8080/reservations?id=" + id + "&date=" + date);
+        String valueAPI = reader.getValueFromURL("http://localhost:8090/reservations?id=" + id + "&date=" + date);
         String valueSQL = "[";
         
         boolean cont = true;

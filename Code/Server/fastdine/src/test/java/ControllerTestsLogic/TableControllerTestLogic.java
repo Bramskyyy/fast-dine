@@ -19,7 +19,7 @@ public class TableControllerTestLogic {
       
         FileReader reader = new FileReader();
         
-        String value = reader.getValueFromURL("http://localhost:8080/tables?id=" + id + "&shift=" + shift + "&date=" + date);
+        String value = reader.getValueFromURL("http://localhost:8090/tables?id=" + id + "&shift=" + shift + "&date=" + date);
 
         JSONArray mJsonArray = new JSONArray(value);
         JSONObject mJsonObject = new JSONObject();

@@ -23,7 +23,7 @@ public class RestaurantControllerTestLogic {
         List<Restaurant> restosAPI = new ArrayList<>();
         List<Restaurant> restosSQL = new ArrayList<>();
         
-        String value = reader.getValueFromURL("http://localhost:8080/restaurant?name=" + restaurantName);
+        String value = reader.getValueFromURL("http://localhost:8090/restaurant?name=" + restaurantName);
 
         JSONArray mJsonArray = new JSONArray(value);
         JSONObject mJsonObject = new JSONObject();
@@ -82,7 +82,7 @@ public class RestaurantControllerTestLogic {
         Restaurant restaurant1;
         Restaurant restaurant2;
         
-        String value = reader.getValueFromURL("http://localhost:8080/restaurantid?id=" + id);
+        String value = reader.getValueFromURL("http://localhost:8090/restaurantid?id=" + id);
 
         JSONArray mJsonArray = new JSONArray(value);
         JSONObject mJsonObject = new JSONObject();

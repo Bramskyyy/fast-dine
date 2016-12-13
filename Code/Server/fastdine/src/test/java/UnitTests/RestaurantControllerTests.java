@@ -78,7 +78,7 @@ public class RestaurantControllerTests {
         
         FileReader reader = new FileReader();
         
-        String value = reader.getValueFromURL("http://localhost:8080/restaurants");
+        String value = reader.getValueFromURL("http://localhost:8090/restaurants");
 
         JSONArray mJsonArray = new JSONArray(value);
         JSONObject mJsonObject = new JSONObject();

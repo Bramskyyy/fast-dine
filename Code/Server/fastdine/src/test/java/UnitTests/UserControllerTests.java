@@ -79,8 +79,8 @@ public class UserControllerTests {
         
         FileReader reader = new FileReader();
 
-        assertTrue(Boolean.parseBoolean(reader.getValueFromURL("http://localhost:8080/newUser?email=" + email + "&type=" + type + "&password=" + password)));
-        assertFalse(Boolean.parseBoolean(reader.getValueFromURL("http://localhost:8080/newUser?email=" + email + "&type=" + type + "&password=" + password)));
+        assertTrue(Boolean.parseBoolean(reader.getValueFromURL("http://localhost:8090/newUser?email=" + email + "&type=" + type + "&password=" + password)));
+        assertFalse(Boolean.parseBoolean(reader.getValueFromURL("http://localhost:8090/newUser?email=" + email + "&type=" + type + "&password=" + password)));
         
         try {
             Class.forName("com.mysql.jdbc.Driver").newInstance();

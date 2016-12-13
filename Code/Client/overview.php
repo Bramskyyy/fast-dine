@@ -15,7 +15,7 @@ $min_seats = isset($_GET['seats']) ? $_GET['seats'] : 0;
 $shift = isset($_GET['shift']) ? $_GET['shift'] : header('Location: index.php');
 $date = !empty($_GET['date']) ? $_GET['date'] : header('Location: index.php');
 
-$api = 'http://localhost:8080';
+$api = 'http://localhost:8090';
 $api_overview = $api . '/restaurants';
 
 if (isset($_GET["name"]) && $_GET["name"] != "") {

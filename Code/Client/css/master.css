@@ -387,3 +387,13 @@ h2.above-card {
 .restaurant #reserveForm input[type="checkbox"] {
 	display: none;
 }
+
+table.reservations a {
+	text-decoration: underline;
+	color: red;
+}
+
+table.reservations td, table.reservations th {
+	padding: 10px;
+	text-align: center;
+}

@@ -57,13 +57,6 @@ public class RestaurantControllerTests {
     }
     
     @Test
-    public void getRestaurantByNONExistingIdTest() throws Exception {
-//        String expectedException = "HTTP error code : 400";
-//        
-//        assertEquals(testLogic.getRestaurantByIdResult("0"), expectedException);
-    }
-    
-    @Test
     public void getRestaurantByIdTest () throws Exception {
 //        assertTrue(testLogic.getRestaurantByIdResult("1"));
 //        exception.expect(NullPointerException.class);

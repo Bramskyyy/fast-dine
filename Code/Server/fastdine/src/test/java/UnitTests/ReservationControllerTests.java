@@ -85,7 +85,7 @@ public class ReservationControllerTests {
     }
     
     @Test
-    public void getReservationsByRestaurantIdAndShiftTest () throws Exception {
+    public void getReservationsByRestaurantIdAndDateTest () throws Exception {
         ReservationControllerTestLogic testLogic = new ReservationControllerTestLogic();
         
         assertTrue(testLogic.getReservationsByRestaurantIdResult("0"));

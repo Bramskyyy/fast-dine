@@ -44,7 +44,8 @@ public class UserControllerTests {
         
         assertFalse(userController.newUser(customerName, "", customerPhone, "", ""));
         
-        assertFalse(userController.newUser(customerName, customerEmail, customerPhone, customerType, customerPswd));
+        exception.expect(NullPointerException.class);
+        userController.newUser(customerName, customerEmail, customerPhone, customerType, customerPswd);
     }
     
     @Test

@@ -1,9 +1,8 @@
 package fastdine;
 
 import dataEntities.User;
-import java.util.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -24,14 +23,11 @@ public class UserController {
             
             try
             {
-                User userByEmail = new User();
                 if (!userEmail.isEmpty() && !userEmail.equals("0")) {            
-                    userByEmail = jdbcTemplate.queryForObject(sql, new Object[] { userEmail }, (rs, rowNum) -> new User(rs.getInt("id"), rs.getString("name"), rs.getString("email"), rs.getString("telephone"), rs.getString("type"), rs.getString("password")));
+                    return jdbcTemplate.queryForObject(sql, new Object[] { userEmail }, (rs, rowNum) -> new User(rs.getInt("id"), rs.getString("name"), rs.getString("email"), rs.getString("telephone"), rs.getString("type"), rs.getString("password")));
                 }
-        
-                return userByEmail;
             }
-            catch (Exception e)
+            catch (DataAccessException e)
             {
                 throw e;
             }
@@ -49,7 +45,7 @@ public class UserController {
                 int result = jdbcTemplate.queryForObject(sql, new Object[] { email }, Integer.class);
                 if (result > 0) return false;
             }
-            catch (Exception e) {
+            catch (DataAccessException e) {
                 return false;
             }
             
@@ -66,7 +62,7 @@ public class UserController {
                     user.getPassword()
                 });
             } 
-            catch (Exception e) {
+            catch (DataAccessException e) {
                 return false;
             }
 

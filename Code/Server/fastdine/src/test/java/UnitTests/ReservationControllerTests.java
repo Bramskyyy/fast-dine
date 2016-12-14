@@ -1,7 +1,13 @@
 package UnitTests;
 
 import ControllerTestsLogic.ReservationControllerTestLogic;
-import fastdine.ReservationController;
+import Helper.FileReader;
+import dataEntities.User;
+import fastdine.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Statement;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -10,6 +16,8 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
 public class ReservationControllerTests {
+    private ReservationControllerTestLogic testLogic = new ReservationControllerTestLogic();
+    
     @Rule
     public final ExpectedException exception = ExpectedException.none();
     
@@ -85,9 +93,7 @@ public class ReservationControllerTests {
     }
     
     @Test
-    public void getReservationsByRestaurantIdAndDateTest () throws Exception {
-        ReservationControllerTestLogic testLogic = new ReservationControllerTestLogic();
-        
+    public void getReservationsByRestaurantIdAndDateTest () throws Exception {       
         assertTrue(testLogic.getReservationsByRestaurantIdResult("0"));
         assertTrue(testLogic.getReservationsByRestaurantIdAndDateResult("0","3"));
         assertTrue(testLogic.getReservationsByRestaurantIdAndDateResult("1","3"));
@@ -96,21 +102,29 @@ public class ReservationControllerTests {
         testLogic.getReservationsByRestaurantIdAndDateResult("test","test");
     }
     
-    //TODO - complete test 
-    @Test
-    public void removeReservationTest () throws Exception {
-    
-    }
-    
-    //TODO - complete test
     @Test
     public void getReservationsByUserIdTest () throws Exception {
-    
+        assertFalse(testLogic.getReservationsByUserIdResult("0"));
+        assertFalse(testLogic.getReservationsByUserIdResult(null));
     }
     
-    //TODO - complete test
     @Test
-    public void newReservationTest () throws Exception {
+    public void addAndRemoveReservationTest () throws Exception {
+        String date = "2017-01-01";
+        int shift = 1;
+        String email = "gebruiker1@odisee.be";
+        String inexistentEmail = "potato";
+        int table1 = 1;
+        int user_id = 1;
+        
+        FileReader reader = new FileReader();
+
+        assertTrue(Boolean.parseBoolean(reader.getValueFromURL("http://localhost:8090/newReservation?date=" + date + "&shift=" + shift + "&email=" + email + "&table1=" + table1)));
+        assertFalse(Boolean.parseBoolean(reader.getValueFromURL("http://localhost:8090/newReservation?date=" + date + "&shift=" + shift + "&email=" + email + "&table1=" + table1)));
+        
+        assertFalse(Boolean.parseBoolean(reader.getValueFromURL("http://localhost:8090/newReservation?date=" + date + "&shift=" + shift + "&email=" + inexistentEmail + "&table1=" + table1)));
+        
+        assertTrue(Boolean.parseBoolean(reader.getValueFromURL("http://localhost:8090/deleteReservation?id=" + user_id + "&date=" + date + "&shift=" + shift)));
         
     }
 }

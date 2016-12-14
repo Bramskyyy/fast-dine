@@ -21,7 +21,7 @@ public class ReservationController {
     @RequestMapping("/deleteReservation")
     public boolean removeReservation(@RequestParam(value="id") String id, @RequestParam(value="date") String date, @RequestParam(value="shift") String shift) {
         if (!id.isEmpty() && !date.isEmpty() && !shift.isEmpty()) {
-            sql = "delete from reservations where date = '" + date + "' and shift = " + shift + " and user_id = " + id + ";";
+            sql = "DELETE FROM reservations WHERE date = '" + date + "' and shift = " + shift + " and user_id = " + id + ";";
             
             try {
                 jdbcTemplate.update(sql);
@@ -110,11 +110,21 @@ public class ReservationController {
         if (!date.isEmpty() && shift >= 1 && shift <= 3 && !userEmail.isEmpty()) {
             List<Integer> tables = new ArrayList<>();
             
-            if(table1 != -1) tables.add(table1); else return false;
-            if(table2 != -1) tables.add(table2);
-            if(table3 != -1) tables.add(table3);
+            if (table1 != -1) {
+                tables.add(table1);
+            } else {
+               return false; 
+            }
+            if (table2 != -1) tables.add(table2);
+            if (table3 != -1) tables.add(table3);
             
             if (tables.isEmpty()) return false;
+            
+            sql = "SELECT COUNT(*) FROM reservations WHERE date = '" + date + "' AND shift = " + shift + " AND user_id = (SELECT id FROM users WHERE email = '" + userEmail + "' LIMIT 1)";
+         
+            int count = -1;
+            count = jdbcTemplate.queryForObject(sql, Integer.class);
+            if (count != 0) return false;
             
             sql = "INSERT INTO reservations (date, shift, user_id) "
                     + "VALUES ('" + date + "', " + shift + ", "

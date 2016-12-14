@@ -1,11 +1,15 @@
 package ControllerTestsLogic;
 
 import Helper.FileReader;
+import dataEntities.Reservation;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 public class ReservationControllerTestLogic {
     private final FileReader reader;
@@ -60,6 +64,48 @@ public class ReservationControllerTestLogic {
         else if (valueSQL == null || valueAPI == null) return false;
         else if (valueSQL.equals(valueAPI)) return true;
         return false;
+    }
+    
+    public boolean getReservationsByUserIdResult(String id) throws Exception {
+        Reservation reservation1 = null;
+        Reservation reservation2;
+        
+        String value = "[" + reader.getValueFromURL("http://localhost:8090/reservationsByUserId?id=" + id) + "]";
+        if (value.equals("[null]")) return false;
+
+        JSONArray mJsonArray = new JSONArray(value);
+        JSONObject mJsonObject = new JSONObject();
+        
+        for (int i = 0; i < mJsonArray.length(); i++) {
+            mJsonObject = mJsonArray.getJSONObject(i);
+
+            String date = mJsonObject.getString("date");
+            int shift = mJsonObject.getInt("shift");
+            String name = mJsonObject.getString("name");
+
+            reservation1 = new Reservation(Date.valueOf(date), shift, name);
+        }
+                   
+        try {
+            Class.forName("com.mysql.jdbc.Driver").newInstance();
+            try (Connection con = DriverManager.getConnection("jdbc:mysql://10.129.32.188/fastdine", "root", "Azerty123")) {
+                Statement st = con.createStatement();
+                String sql = ("SELECT * FROM restaurants WHERE id = '" + id + "';");
+                ResultSet rs = st.executeQuery(sql);
+                
+                rs.next();
+                String date = rs.getString("date");
+                int shift = rs.getInt("shift");
+                String name = rs.getString("name");
+                           
+                reservation2 = new Reservation(Date.valueOf(date), shift, name);
+            }
+        }
+        catch (ClassNotFoundException | IllegalAccessException | InstantiationException | SQLException e) {
+            throw e;
+        }
+        
+        return reservation1.toString().equals(reservation2.toString());
     }
     
     public boolean getReservationsByRestaurantIdAndDateResult (String id, String date) throws Exception {

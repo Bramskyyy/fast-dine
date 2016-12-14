@@ -1,5 +1,6 @@
 package UnitTests;
 
+import ControllerTestsLogic.UserControllerTestLogic;
 import Helper.FileReader;
 import fastdine.UserController;
 import java.sql.Connection;
@@ -26,8 +27,7 @@ public class UserControllerTests {
     }
     
     @Test
-    public void testNewUser() {        
-        int customerId = 1;
+    public void testNewUser() {
         String customerName = "test";
         String customerEmail = "test@test.be";
         String customerPhone = "012334556789";
@@ -49,26 +49,23 @@ public class UserControllerTests {
     }
     
     @Test
-    public void testGetUserPassword() {
-        String customerEmail = "test@test.be";
-        String expectedException = "Exception: null";
+    public void testGetUserByEmail() {
+        String inexistentEmail = "test@test.be";
         
         assertEquals(userController.getUserByEmail(""), null);
+        assertEquals(userController.getUserByEmail("0"), null);
         
         exception.expect(NullPointerException.class);
-        userController.getUserByEmail(customerEmail);
+        userController.getUserByEmail(inexistentEmail);
     }
     
     @Test
-    public void getUserPasswordByEmailTest() throws Exception {
-        // TODO fix test
-//        UserControllerTestLogic testLogic = new UserControllerTestLogic();
-//        
-//        assertTrue(testLogic.getUserPasswordByEmailResult("1"));
-//        assertTrue(testLogic.getUserPasswordByEmailResult("gebruiker1@odisee.be"));
-//        assertTrue(testLogic.getUserPasswordByEmailResult(null));
-//        exception.expect(NullPointerException.class);
-//        testLogic.getUserPasswordByEmailResult("");
+    public void getUserByEmailTest() throws Exception {
+        UserControllerTestLogic testLogic = new UserControllerTestLogic();
+           
+        assertTrue(testLogic.getUserByEmailResult("gebruiker1@odisee.be"));       
+        exception.expect(RuntimeException.class);
+        testLogic.getUserByEmailResult("deze user bestaat niet");
     }
     
     @Test

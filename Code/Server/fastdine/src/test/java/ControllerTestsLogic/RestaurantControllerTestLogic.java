@@ -78,23 +78,28 @@ public class RestaurantControllerTestLogic {
         return result;
     }
     
-    public boolean getRestaurantByIdResult (String id) throws Exception  {
-        Restaurant restaurant1;
+    public boolean getRestaurantByIdResult (String id) throws Exception {
+        Restaurant restaurant1 = null;
         Restaurant restaurant2;
         
-        String value = reader.getValueFromURL("http://localhost:8090/restaurantid?id=" + id);
+        String value = "[" + reader.getValueFromURL("http://localhost:8090/restaurantid?id=" + id) + "]";
+        if (value.equals("[null]")) return false;
 
         JSONArray mJsonArray = new JSONArray(value);
         JSONObject mJsonObject = new JSONObject();
         
-        int _id = mJsonObject.getInt("id");
-        String name = mJsonObject.getString("name");
-        String location = mJsonObject.getString("location");
-        String email = mJsonObject.getString("email");
-        String telephone = mJsonObject.getString("telephone");
-        int seats = mJsonObject.getInt("seats");
+        for (int i = 0; i < mJsonArray.length(); i++) {
+            mJsonObject = mJsonArray.getJSONObject(i);
 
-        restaurant1 = new Restaurant(_id, name, location, email, telephone, seats);
+            String name = mJsonObject.getString("name");
+            String location = mJsonObject.getString("location");
+            String email = mJsonObject.getString("email");
+            String telephone = mJsonObject.getString("telephone");
+            int seats = mJsonObject.getInt("seats");
+
+            restaurant1 = new Restaurant(Integer.parseInt(id), name, location, email, telephone, seats);
+        }
+        
                      
         try {
             Class.forName("com.mysql.jdbc.Driver").newInstance();
@@ -104,14 +109,13 @@ public class RestaurantControllerTestLogic {
                 ResultSet rs = st.executeQuery(sql);
                 
                 rs.next();
-                _id = rs.getInt("id");
-                name = rs.getString("name");
-                location = rs.getString("location");
-                email = rs.getString("email");
-                telephone = rs.getString("telephone");
-                seats = rs.getInt("seats");
+                String name = rs.getString("name");
+                String location = rs.getString("location");
+                String email = rs.getString("email");
+                String telephone = rs.getString("telephone");
+                int seats = rs.getInt("seats");
                 
-                restaurant2 = new Restaurant(_id, name, location, email, telephone, seats);
+                restaurant2 = new Restaurant(Integer.parseInt(id), name, location, email, telephone, seats);
             }
         }
         catch (ClassNotFoundException | IllegalAccessException | InstantiationException | SQLException e) {

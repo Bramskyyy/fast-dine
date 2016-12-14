@@ -18,14 +18,13 @@ public class UserController {
     // Returns the hashed password for a user based on its email
     @RequestMapping("/user")
     public User getUserByEmail (@RequestParam(value="email") String userEmail) {
-        if (!userEmail.isEmpty()) {
+        if (!userEmail.isEmpty() && !userEmail.equals("0")) {
             sql = "SELECT * FROM users WHERE email = ? LIMIT 1";
             
             try
-            {
-                if (!userEmail.isEmpty() && !userEmail.equals("0")) {            
-                    return jdbcTemplate.queryForObject(sql, new Object[] { userEmail }, (rs, rowNum) -> new User(rs.getInt("id"), rs.getString("name"), rs.getString("email"), rs.getString("telephone"), rs.getString("type"), rs.getString("password")));
-                }
+            {         
+                return jdbcTemplate.queryForObject(sql, new Object[] { userEmail }, (rs, rowNum) -> new User(rs.getInt("id"), rs.getString("name"), rs.getString("email"), rs.getString("telephone"), rs.getString("type"), rs.getString("password")));
+
             }
             catch (DataAccessException e)
             {

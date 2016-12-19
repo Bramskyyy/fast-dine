@@ -1,0 +1,47 @@
+{% extends 'master.twig' %}
+
+{% block pageContent %}
+
+<h2 class="above-card">Mijn reservaties</h2>
+
+<div class="overview clearfix">
+	<div class="container clearfix">
+		<form id="reservationDateForm" action="{{ PHP_SELF }}" method="post">
+			<input type="date" id="date" name="date" class="formControl" value="{{ date }}" />
+			<input type="submit" name="search" value="Verfijn" />
+		</form>
+		<table class="reservations">
+			<tr>
+				<th>Tafel</th>
+				<th>Klant</th>
+				<th>Telefoon Klant</th>
+				<th>Datum</th>
+				<th>Tijdstip</th>
+			</tr>
+			{% for reservation in reservations %}
+			<tr>
+				{% if reservation|length > 5 %}
+					<td>{{ reservation[5] }}</td>
+					<td>{{ reservation[1] }}</td>
+					<td>{{ reservation[2] }}</td>
+					<td>{{ reservation[3] }}</td>
+					<td>
+						{% if reservation[4] == "1" %}13u00{% elseif reservation[4] == "2" %}18u00{% elseif reservation[4] == "3" %}20u00{% endif %}
+					</td>
+				{% else %}
+					<td>{{ reservation[4] }}</td>
+					<td>{{ reservation[1] }}</td>
+					<td>{{ reservation[2] }}</td>
+					<td>{{ date }}</td>
+					<td>
+						{% if reservation[3] == "1" %}13u00{% elseif reservation[3] == "2" %}18u00{% elseif reservation[3] == "3" %}20u00{% endif %}
+					</td>
+				{% endif %}
+
+			</tr>
+			{% endfor %}
+		</table>
+	</div>
+</div>
+
+{% endblock %}

@@ -14,14 +14,14 @@
 				<th>Annuleren</th>
 			</tr>
 			{% for reservation in reservations %}
-			    <tr>
-			    	<td>{{ reservation.restaurantName }}</td>
-					<td>{{ reservation.date }}</td>
-					<td>
-						{% if reservation.shift == "1" %}13u00{% elseif reservation.shift == "2" %}18u00{% elseif reservation.shift == "3" %}20u00{% endif %}
-					</td>
-					<td><a href="account.php?moduleAction=delete&date={{ reservation.date }}&shift={{ reservation.shift }}">X</a></td>
-			    </tr>
+			<tr>
+				<td>{{ reservation.restaurantName }}</td>
+				<td>{{ reservation.date }}</td>
+				<td>
+					{% if reservation.shift == "1" %}13u00{% elseif reservation.shift == "2" %}18u00{% elseif reservation.shift == "3" %}20u00{% endif %}
+				</td>
+				<td><a href="account.php?moduleAction=delete&date={{ reservation.date }}&shift={{ reservation.shift }}">X</a></td>
+			</tr>
 			{% endfor %}
 		</table>
 	</div>

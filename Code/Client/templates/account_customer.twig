@@ -20,7 +20,7 @@
 				<td>
 					{% if reservation.shift == "1" %}13u00{% elseif reservation.shift == "2" %}18u00{% elseif reservation.shift == "3" %}20u00{% endif %}
 				</td>
-				<td><a href="account.php?moduleAction=delete&date={{ reservation.date }}&shift={{ reservation.shift }}">X</a></td>
+				<td><a class="cancel" href="account.php?moduleAction=delete&date={{ reservation.date }}&shift={{ reservation.shift }}">&times;</a></td>
 			</tr>
 			{% endfor %}
 		</table>

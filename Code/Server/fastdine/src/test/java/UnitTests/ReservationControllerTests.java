@@ -1,9 +1,9 @@
 package UnitTests;
 
+import controllers.ReservationController;
 import ControllerTestsLogic.ReservationControllerTestLogic;
 import Helper.FileReader;
 import dataEntities.User;
-import fastdine.*;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -32,15 +32,15 @@ public class ReservationControllerTests {
         int table2 = 2;
         int table3 = 3;
         
-        assertFalse(rc.newReservation("", shift, userEmail, table1, table2, table3));
-        assertFalse(rc.newReservation(date, 4, userEmail, table1, table2, table3));
-        assertFalse(rc.newReservation(date, 0, userEmail, table1, table2, table3));
-        assertFalse(rc.newReservation(date, shift, "", table1, table2, table3));
+        assertFalse(rc.addNewReservation("", shift, userEmail, table1, table2, table3));
+        assertFalse(rc.addNewReservation(date, 4, userEmail, table1, table2, table3));
+        assertFalse(rc.addNewReservation(date, 0, userEmail, table1, table2, table3));
+        assertFalse(rc.addNewReservation(date, shift, "", table1, table2, table3));
         
-        assertFalse(rc.newReservation(date, shift, userEmail, -1, table2, table3));
+        assertFalse(rc.addNewReservation(date, shift, userEmail, -1, table2, table3));
        
         exception.expect(NullPointerException.class);
-        rc.newReservation(date, shift, userEmail, table1, table2, table3);
+        rc.addNewReservation(date, shift, userEmail, table1, table2, table3);
     }
     
     @Test

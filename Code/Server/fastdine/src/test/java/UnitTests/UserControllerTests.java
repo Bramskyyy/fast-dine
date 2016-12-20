@@ -2,7 +2,7 @@ package UnitTests;
 
 import ControllerTestsLogic.UserControllerTestLogic;
 import Helper.FileReader;
-import fastdine.UserController;
+import controllers.UserController;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;

@@ -1,4 +1,4 @@
-package fastdine;
+package controllers;
 
 import dataEntities.User;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -15,7 +15,7 @@ apply plugin: 'org.springframework.boot'
 apply plugin: "application"
 apply plugin: "jacoco"
 
-mainClassName = 'fastdine.Application'
+mainClassName = 'controllers.Application'
 
 jacoco {
     applyTo run
@@ -52,7 +52,7 @@ task applicationCodeCoverageReport(type:JacocoReport){
 
 jar {
 	manifest {
-        attributes 'Main-Class': 'com.fastdine.Application'
+        attributes 'Main-Class': 'com.controllers.Application'
     }
     baseName = 'fastdine-JAR'
     version =  '0.1.X'
@@ -74,5 +74,5 @@ dependencies {
 }
 
 if (!hasProperty('mainClass')) {
-    ext.mainClass = 'fastdine.Application'
+    ext.mainClass = 'controllers.Application'
 }

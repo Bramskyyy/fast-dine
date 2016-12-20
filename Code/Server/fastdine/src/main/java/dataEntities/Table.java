@@ -5,20 +5,20 @@ import java.util.List;
 
 public class Table {
     private final int id;
-    private final int tableNumber;
+    private final int number;
     private final int seats;
     private final List<Reservation> reservations;
     
     public Table(int tableId, int tableNumber, int seats) {
         this.id = tableId;
-        this.tableNumber = tableNumber;
+        this.number = tableNumber;
         this.seats = seats;
         this.reservations = new ArrayList<>();
     }
     
     public Table(int tableID, int seats) {
         this.id = tableID;
-        this.tableNumber = 0;
+        this.number = 0;
         this.seats = seats;
         this.reservations = new ArrayList<>();        
     }
@@ -35,8 +35,8 @@ public class Table {
         return this.id;
     }
 
-    public int getTableNumber() {
-        return this.tableNumber;
+    public int getNumber() {
+        return this.number;
     }
 
     public int getSeats() {
@@ -45,6 +45,6 @@ public class Table {
 
     @Override
     public String toString() {
-        return "Table{" + "id=" + id + ", tableNumber=" + tableNumber + ", seats=" + seats + ", reservations=" + reservations.toString() + '}';
+        return "Table{" + "id=" + id + ", tableNumber=" + number + ", seats=" + seats + ", reservations=" + reservations.toString() + '}';
     }
 }

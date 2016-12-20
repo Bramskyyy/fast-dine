@@ -1,4 +1,4 @@
-package fastdine;
+package controllers;
 
 import dataEntities.Table;
 import java.util.*;

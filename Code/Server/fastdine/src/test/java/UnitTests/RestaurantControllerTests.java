@@ -3,7 +3,7 @@ package UnitTests;
 import ControllerTestsLogic.RestaurantControllerTestLogic;
 import Helper.FileReader;
 import dataEntities.Restaurant;
-import fastdine.RestaurantController;
+import controllers.RestaurantController;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;

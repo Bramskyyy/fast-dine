@@ -84,7 +84,7 @@ public class POJOTests {
         Table table = new Table(id, tableNumber, seats);
         
         assertEquals(table.getId(), id);
-        assertEquals(table.getTableNumber(), tableNumber);
+        assertEquals(table.getNumber(), tableNumber);
         assertEquals(table.getSeats(), seats);
         assertEquals(table.getReservations().isEmpty(), true);
         

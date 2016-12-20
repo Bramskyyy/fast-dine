@@ -1,7 +1,7 @@
 package UnitTests;
 
 import ControllerTestsLogic.TableControllerTestLogic;
-import fastdine.TableController;
+import controllers.TableController;
 import static org.junit.Assert.assertTrue;
 import org.junit.Rule;
 import org.junit.Test;
